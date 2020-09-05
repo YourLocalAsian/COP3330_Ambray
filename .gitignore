@@ -1,4 +1,4 @@
 //Ignores selected files
 .idea/
-/*.class
+/**/*.class
 /**/*.iml
