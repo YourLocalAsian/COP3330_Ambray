@@ -7,12 +7,12 @@ public class Encrypter {
     private int tempDigit = 0;
     private String finalValue;
 
-    public void encrypt(String input){
+    public String encrypt(String input){
         convertInt(input);
         addModMain();
         swapDigit();
         convertStr();
-        printFinalValue(finalValue);
+        return finalValue;
 
     }
 
@@ -54,9 +54,5 @@ public class Encrypter {
     public void convertStr(){
         conValue = conArray[0]*1000 + conArray[1]*100 + conArray[2]*10 + conArray[3];
         finalValue = String.format("%04d", conValue);
-    }
-
-    public void printFinalValue(String finalValue) {
-        System.out.printf("Encrypted string: " + finalValue);
     }
 }

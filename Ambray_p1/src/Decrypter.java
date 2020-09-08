@@ -7,12 +7,12 @@ public class Decrypter {
     private int tempDigit = 0;
     private String finalValue;
 
-    public void decrypt(String input){
+    public String decrypt(String input){
         convertInt(input);
         swapDigit();
         modSub();
         convertStr();
-        printFinalValue(finalValue);
+        return finalValue;
 
     }
 
@@ -57,9 +57,5 @@ public class Decrypter {
     public void convertStr(){
         conValue = conArray[0]*1000 + conArray[1]*100 + conArray[2]*10 + conArray[3];
         finalValue = String.format("%04d", conValue);
-    }
-
-    public void printFinalValue(String finalValue) {
-        System.out.printf("Decrypted string: " + finalValue);
     }
 }

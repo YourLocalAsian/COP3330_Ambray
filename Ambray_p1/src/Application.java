@@ -15,31 +15,30 @@ public class Application {
         //while-loop
         String thing = "";
         while(!thing.equalsIgnoreCase("stop")) {
-
-            System.out.println(); // outputs a blank line
-            System.out.printf("Please select an operation: ");
+            System.out.printf("\nPlease select an operation: ");
             thing = input.nextLine();
             System.out.println();
 
             if(thing.equals("1")){
-
-                //creates an Encypter object
+                //creates an Encrypter object
                 System.out.println("You selected: Encryption");
                 Encrypter myEncrypter = new Encrypter();
+
+                //prompts input
                 System.out.printf("Please enter an integer string: ");
                 String theInput = input.nextLine();
-                myEncrypter.encrypt(theInput);
-                System.out.println(); // outputs a blank line
-
+                String encryptedValue = myEncrypter.encrypt(theInput);
+                System.out.println("Encrypted value: " + encryptedValue); //prints final value
             } else if(thing.equals("2")){
-
-                //creates an Decypter object
+                //creates an Decrypter object
                 System.out.println("You selected: Decryption");
                 Decrypter myDecrypter = new Decrypter();
+
+                //prompts input
                 System.out.printf("Please enter an integer string: ");
                 String theInput = input.nextLine();
-                myDecrypter.decrypt(theInput);
-                System.out.println(); // outputs a blank line
+                String decryptedValue = myDecrypter.decrypt(theInput);;
+                System.out.println("Decrypted value: " + decryptedValue); //prints final value
             } else break;
         }
         System.out.println("You ended the program.");
