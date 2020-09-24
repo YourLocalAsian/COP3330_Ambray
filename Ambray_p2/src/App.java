@@ -41,7 +41,7 @@ public class App {
         }
         else {
             System.out.println("Only heights greater than 0 are accepted.");
-            getUserHeight();
+            return getUserHeight();
         }
     }
 
@@ -55,12 +55,13 @@ public class App {
         }
         else {
             System.out.println("Only weights greater than 0 are accepted.");
-            getUserWeight();
+            return getUserWeight();
         }
     }
 
     public static void displayBmiInfo(BodyMassIndex bmi_x){
     //prints out a user's BMi score and category using the data contained in a BodyMassIndex object
+        
     }
 
     public static void displayBmiStatistics(ArrayList<BodyMassIndex> bmi_y){
