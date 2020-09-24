@@ -1,9 +1,9 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
-
-    Scanner userInput = new Scanner;
+    static final Scanner userInput = new Scanner(System.in);
 
     public static void main(String[] args) {
         ArrayList<BodyMassIndex> bmiData = new ArrayList<BodyMassIndex>();
@@ -23,20 +23,40 @@ public class App {
 
     //moreInput - prompts Y or N and returns bool
     public static boolean moreInput(){
-        return true;
+        System.out.println("Would you like to input data? (Y/N)");
+        String prompt = userInput.nextLine();
+        userInput.nextLine();
+        if(prompt.equalsIgnoreCase("y")){
+            return true;
+        } else return false;
     }
 
+    public static double getUserHeight(){
+        System.out.println("Please enter a height in inches: ");
+        double tempHeight = userInput.nextDouble();
+        userInput.nextLine();
 
-    public static int getUserHeight(){
-    //prompts for height in inches & only accepts positive values
-        //create local variable and set it to inputDouble
-        //if > 0, return input
-        //else print prompt for valid value
-            //call function again
+        if(tempHeight > 0){
+            return tempHeight;
+        }
+        else {
+            System.out.println("Only heights greater than 0 are accepted.");
+            getUserHeight();
+        }
     }
 
-    public static int getUserWeight(){
-    //prompts for weight in lbs and only accepts positive values
+    public static double getUserWeight(){
+        System.out.println("Please enter a weight in pounds: ");
+        double tempWeight = userInput.nextDouble();
+        userInput.nextLine();
+
+        if(tempWeight > 0){
+            return tempWeight;
+        }
+        else {
+            System.out.println("Only weights greater than 0 are accepted.");
+            getUserWeight();
+        }
     }
 
     public static void displayBmiInfo(BodyMassIndex bmi_x){
