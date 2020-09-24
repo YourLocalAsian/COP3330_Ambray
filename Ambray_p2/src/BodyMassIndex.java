@@ -26,7 +26,7 @@ public class BodyMassIndex {
             return "Overweight";
         }
         else if(inputBMI >= NORMAL) {
-            return "Normal";
+            return "Normal weight";
         }
         else return "Underweight";
     }
