@@ -25,10 +25,15 @@ public class App {
     public static boolean moreInput(){
         System.out.println("Would you like to input data? (Y/N)");
         String prompt = userInput.nextLine();
-        userInput.nextLine();
         if(prompt.equalsIgnoreCase("y")){
             return true;
-        } else return false;
+        }
+        else if(prompt.equalsIgnoreCase("n")) {
+            return false;
+        } else {
+            System.out.println("That is not a valid operator!");
+            return moreInput();
+        }
     }
 
     public static double getUserHeight(){
@@ -61,10 +66,21 @@ public class App {
 
     public static void displayBmiInfo(BodyMassIndex bmi_x){
     //prints out a user's BMi score and category using the data contained in a BodyMassIndex object
-        
+        double tempBMI = bmi_x.calculateBMI();
+        System.out.printf("%nThe BMI of this user is: %.1f%n", tempBMI);
+        System.out.println("This person would be classified as: " + BodyMassIndex.categorizeBMI(tempBMI));
+        System.out.println();
     }
 
     public static void displayBmiStatistics(ArrayList<BodyMassIndex> bmi_y){
     //prints out the average BMI score of the data
+        double totalBMI = 0;
+        for(BodyMassIndex person : bmi_y){
+           totalBMI += person.calculateBMI();
+        }
+
+        double avgBMI = totalBMI / bmi_y.size();
+        System.out.printf("%nThe average BMI is: %.1f%n", avgBMI);
+        System.out.println("The average person would be classified as: " + BodyMassIndex.categorizeBMI(avgBMI));
     }
 }

@@ -5,8 +5,6 @@ public class BodyMassIndex {
 
     private double height;
     private double weight;
-    private String bmiCategory = "";
-    private double personBMI;
 
     //BodyMassIndex Constructor
     public BodyMassIndex(double height, double weight){
@@ -15,20 +13,19 @@ public class BodyMassIndex {
     }
 
     //Calculator for BMI
-    public double calculateBMI(double height, double weight){
-        personBMI = 703 * weight / (height * height);
-        return personBMI;
+    public double calculateBMI(){
+        return 703 * weight / (height * height);
     }
 
     //Categories BMI
-    public static String categorizeBMI(double testBMI){
-        if(testBMI >= OBESITY){
+    public static String categorizeBMI(double inputBMI){
+        if(inputBMI >= OBESITY){
             return "Obese";
         }
-        else if(testBMI >= OVERWEIGHT){
+        else if(inputBMI >= OVERWEIGHT){
             return "Overweight";
         }
-        else if(testBMI >= NORMAL) {
+        else if(inputBMI >= NORMAL) {
             return "Normal";
         }
         else return "Underweight";
