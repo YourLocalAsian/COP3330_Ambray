@@ -1,5 +1,6 @@
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class App {
@@ -38,28 +39,41 @@ public class App {
 
     public static double getUserHeight(){
         System.out.println("Please enter a height in inches: ");
-        double tempHeight = userInput.nextDouble();
-        userInput.nextLine();
+        try{
+            double tempHeight = userInput.nextDouble();
+            userInput.nextLine();
 
-        if(tempHeight > 0){
-            return tempHeight;
+            if(tempHeight > 0){
+                return tempHeight;
+            }
+            else {
+                System.out.println("Only heights greater than 0 are accepted.");
+                return getUserHeight();
+            }
         }
-        else {
-            System.out.println("Only heights greater than 0 are accepted.");
+        catch (InputMismatchException e) {
+            System.out.println("Only numerical values are valid inputs.");
+            userInput.nextLine();
             return getUserHeight();
         }
     }
 
     public static double getUserWeight(){
         System.out.println("Please enter a weight in pounds: ");
-        double tempWeight = userInput.nextDouble();
-        userInput.nextLine();
+        try {
+            double tempWeight = userInput.nextDouble();
+            userInput.nextLine();
 
-        if(tempWeight > 0){
-            return tempWeight;
+            if (tempWeight > 0) {
+                return tempWeight;
+            } else {
+                System.out.println("Only weights greater than 0 are accepted.");
+                return getUserWeight();
+            }
         }
-        else {
-            System.out.println("Only weights greater than 0 are accepted.");
+        catch (InputMismatchException e) {
+            System.out.println("Only numerical values are valid inputs.");
+            userInput.nextLine();
             return getUserWeight();
         }
     }
