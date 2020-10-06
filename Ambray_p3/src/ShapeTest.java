@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class ShapeTest {
@@ -21,6 +21,7 @@ class ShapeTest {
         assertEquals(0.25, shape.getArea());
     }
 
+
     @Test
     public void testTriangleName(){
         Shape shape = new Triangle(100, 100);
@@ -36,30 +37,27 @@ class ShapeTest {
     @Test
     public void testTriangleArea2(){
         Shape2D shape = new Triangle(0.5, 0.25);
-        assertEquals(0.063, shape.getArea());
+        assertEquals(0.063, shape.getArea(), 0.001);
     }
-
 
 
     @Test
     public void testCircleName(){
-        Shape shape = new Triangle.Circle(10);
+        Shape shape = new Circle(10);
         assertEquals("circle", shape.getName());
     }
 
     @Test
     public void testCircleArea(){
-        Shape2D shape = new Triangle.Circle(10);
+        Shape2D shape = new Circle(10);
         assertEquals(314.16, shape.getArea(), 0.01);
     }
 
     @Test
     public void testCircleArea2(){
-        Shape2D shape = new Triangle.Circle(10);
+        Shape2D shape = new Circle(0.5);
         assertEquals(.79, shape.getArea(), 0.01);
     }
-
-
 
     //3D Shapes
     @Test
@@ -92,9 +90,10 @@ class ShapeTest {
         assertEquals(0.13, shape.getVolume(), 0.01);
     }
 
+
     @Test
     public void testPyramidName(){
-        Shape shape = new Pyramid(100);
+        Shape shape = new Pyramid(10, 10, 10);
         assertEquals("pyramid", shape.getName());
     }
 
@@ -122,6 +121,7 @@ class ShapeTest {
         assertEquals(0.63, shape.getVolume(), 0.01);
     }
 
+
     @Test
     public void testSphereName(){
         Shape shape = new Sphere(10);
@@ -141,7 +141,7 @@ class ShapeTest {
     }
 
     @Test
-    public void testSphereolume() {
+    public void testSphereVolume() {
         Shape3D shape = new Sphere(10);
         assertEquals(4188.79, shape.getVolume(), 0.01);
     }
@@ -151,5 +151,4 @@ class ShapeTest {
         Shape3D shape = new Sphere(0.6);
         assertEquals(0.9, shape.getVolume(), 0.01);
     }
-
 }

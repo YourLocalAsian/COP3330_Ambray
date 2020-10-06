@@ -4,5 +4,10 @@ public abstract class Shape3D extends Shape{
         super(length);
     }
 
+    //methods
     public abstract double getVolume();
+
+    public abstract double getArea();
+
+    public abstract String getName();
 }
