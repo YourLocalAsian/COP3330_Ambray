@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 class ShapeTest {
     @Test
@@ -19,8 +20,6 @@ class ShapeTest {
         Shape2D shape = new Square(0.5);
         assertEquals(0.25, shape.getArea());
     }
-
-
 
     @Test
     public void testTriangleName(){
@@ -44,19 +43,19 @@ class ShapeTest {
 
     @Test
     public void testCircleName(){
-        Shape shape = new Circle(10);
+        Shape shape = new Triangle.Circle(10);
         assertEquals("circle", shape.getName());
     }
 
     @Test
     public void testCircleArea(){
-        Shape2D shape = new Circle(10);
+        Shape2D shape = new Triangle.Circle(10);
         assertEquals(314.16, shape.getArea(), 0.01);
     }
 
     @Test
     public void testCircleArea2(){
-        Shape2D shape = new Circle(10);
+        Shape2D shape = new Triangle.Circle(10);
         assertEquals(.79, shape.getArea(), 0.01);
     }
 
