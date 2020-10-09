@@ -1,13 +1,16 @@
 public abstract class Shape3D extends Shape{
+    protected double height;
+
     //constructor
-    public Shape3D(double length){
-        super(length);
+    public Shape3D(String name, double length, double width, double height){
+        super(name, length, width);
+        this.height = height;
     }
 
-    //methods
+    public String getName(){
+        return name;
+    }
+
+    //abstract method
     public abstract double getVolume();
-
-    public abstract double getArea();
-
-    public abstract String getName();
 }
