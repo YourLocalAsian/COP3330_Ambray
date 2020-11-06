@@ -9,28 +9,31 @@ public class TaskItem {
 
     public TaskItem(String taskTitle, String taskDescription, String strTaskDueDate) throws Exception {
         try {
-            this.taskTitle = taskTitle;
+            if(taskTitle.length() > 0) {
+                this.taskTitle = taskTitle;
+            } else {
+              throw new Exception("Invalid title");
+            }
+
             this.taskDescription = taskDescription;
             this.taskDueDate = LocalDate.parse(strTaskDueDate);
+
         } catch (DateTimeParseException dateTimeParseException){
             System.out.println();
-            throw new Exception();
+            throw new Exception("Invalid date");
         }
     }
-
-    public static boolean checkValidName(String name) {
-        if (name.length() > 0) {
-            return true;
-        } else return false;
-    }
-
 
     public String getTaskTitle() {
         return taskTitle;
     }
 
-    public void setTaskTitle(String taskTitle) {
-        this.taskTitle = taskTitle;
+    public void setTaskTitle(String taskTitle) throws Exception{
+            if (taskTitle.length() > 0) {
+                this.taskTitle = taskTitle;
+            } else {
+                throw new Exception("Invalid title");
+            }
     }
 
     public String getTaskDescription() {
@@ -45,13 +48,23 @@ public class TaskItem {
         return taskDueDate;
     }
 
+    public void setTaskDueDate(String strTaskDueDate) throws Exception{
+        try {
+            this.taskDueDate = LocalDate.parse(strTaskDueDate);
+        } catch (DateTimeParseException dateTimeParseException){
+            System.out.println();
+            throw new Exception("Invalid date");
+        }
+    }
 
-    public boolean isTaskCompletionStatus() {
+
+    public boolean getTaskCompletionStatus() {
         return taskCompletionStatus;
     }
 
     public void setTaskCompletionStatus(boolean taskCompletionStatus) {
         this.taskCompletionStatus = taskCompletionStatus;
     }
+
 
 }
