@@ -1,15 +1,17 @@
 import java.util.Scanner;
 
-
-
 public class App {
     static final int FULL = 0;
     static final int INCOMPLETE = 1;
     static final int COMPLETE = 2;
 
+    static int completeCounter = 0;
+    static int incompleteCounter = 0;
+
     private static Scanner userInput = new Scanner(System.in);
 
     public static void main(String [] args){
+
         runMainMenu();
         //System.out.println();
         TaskList myList = new TaskList();
@@ -48,10 +50,14 @@ public class App {
                 case 2:
                     TaskList tempList = new TaskList();
                     System.out.print("Select the file you want to open (add .txt file extension): ");
-                    tempList.humanLoadList();
-                    System.out.println();
-                    selectOperation(tempList);
-                    break;
+                    try{
+                        tempList.humanLoadList();
+                        System.out.println();
+                        selectOperation(tempList);
+                        break;
+                    } catch (Exception e){
+                        break;
+                    }
                 case 3:
                     System.exit(1);
                 default:
@@ -101,16 +107,24 @@ public class App {
                 case 5:
                     System.out.println("Incomplete tasks\n" + "--------------");
                     optionViewList(myList, INCOMPLETE);
-                    System.out.printf("Which item would you like to mark as complete? ");
-                    myList.humanCompleteTaskItem();
-                    System.out.println();
+                    if(incompleteCounter != 0) {
+                        System.out.printf("Which item would you like to mark as complete? ");
+                        myList.humanCompleteTaskItem();
+                        System.out.println();
+                    } else {
+                        System.out.println("No tasks are incomplete\n");
+                    }
                     break;
                 case 6:
                     System.out.println("Complete tasks\n" + "--------------");
                      optionViewList(myList, COMPLETE);
-                    System.out.printf("Which item would you like to mark as incomplete? ");
-                    myList.humanUncompleteTaskItem();
-                    System.out.println();
+                    if(incompleteCounter != 0) {
+                        System.out.printf("Which item would you like to mark as incomplete? ");
+                        myList.humanUncompleteTaskItem();
+                        System.out.println();
+                    } else {
+                        System.out.println("No tasks are complete\n");
+                    }
                     break;
                 case 7:
                     System.out.printf("What would you like save for list as? (add .txt file extension) ");
@@ -146,11 +160,11 @@ public class App {
                 break;
             case COMPLETE: //complete
                 for (int i = 0; i < myList.getTaskItems().size(); i++){
-                    if(myList.getCompletionStatus(i)){
+                    if(myList.getCompletionStatus(i)) {
                         System.out.println(i + ") [" + myList.getTaskDueDate(i) + "] " +
                                 myList.getTaskTitle(i) + ": " +
                                 myList.getTaskDescription(i));
-
+                        completeCounter++;
                     }
                 }
                 System.out.println();
@@ -161,6 +175,7 @@ public class App {
                         System.out.println(i + ") [" + myList.getTaskDueDate(i) + "] " +
                                 myList.getTaskTitle(i) + ": " +
                                 myList.getTaskDescription(i));
+                        incompleteCounter++;
                     }
                 }
                 System.out.println();

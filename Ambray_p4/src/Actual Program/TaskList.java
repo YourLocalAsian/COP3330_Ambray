@@ -328,7 +328,7 @@ public class TaskList {
         }
     }
 
-    public void humanLoadList(){
+    public void humanLoadList() throws Exception{
         boolean pendingLoad = true;
         while(pendingLoad) {
             try {
@@ -338,6 +338,7 @@ public class TaskList {
             } catch (NoSuchElementException |
                     IllegalStateException e) {
                 System.out.println("File does not exist");
+                throw new Exception("You messed up");
             }
         }
     }

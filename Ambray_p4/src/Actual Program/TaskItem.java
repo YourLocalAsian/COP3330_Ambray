@@ -57,7 +57,6 @@ public class TaskItem {
         }
     }
 
-
     public boolean getTaskCompletionStatus() {
         return taskCompletionStatus;
     }
