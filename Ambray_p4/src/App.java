@@ -1,7 +1,13 @@
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
+
+
 public class App {
+    static final int FULL = 0;
+    static final int INCOMPLETE = 1;
+    static final int COMPLETE = 2;
+
     private static Scanner userInput = new Scanner(System.in);
 
     public static void main(String [] args){
@@ -33,6 +39,8 @@ public class App {
             int userChoice = userInput.nextInt();
             switch(userChoice){
                 case 1:
+                    TaskList myList = new TaskList();
+                    selectOperation(myList);
                     break;
                 case 2:
                     break;
@@ -64,30 +72,36 @@ public class App {
             switch(userChoice){
                 case 1:
                     System.out.println("Current tasks\n" + "--------------");
-                    viewList(myList);
+                    optionViewList(myList, FULL);
                     break;
                 case 2:
                     myList.addTaskItem();
                     break;
                 case 3:
                     System.out.println("Current tasks\n" + "--------------");
-                    viewList(myList);
+                    optionViewList(myList, FULL);
                     System.out.printf("Which task will you edit? ");
                     myList.humanEditTaskItem();
                     break;
                 case 4:
+                    System.out.println("Current tasks\n" + "--------------");
+                    optionViewList(myList, FULL);
+                    System.out.printf("Which task will you delete? ");
+                    myList.humanRemoveTaskItem();
                     break;
                 case 5:
                     System.out.println("Incomplete tasks\n" + "--------------");
-                    optionViewList(myList, 1);
+                    optionViewList(myList, INCOMPLETE);
                     System.out.printf("Which item would you like to mark as complete? ");
                     myList.humanCompleteTaskItem();
+                    System.out.println();
                     break;
                 case 6:
                     System.out.println("Complete tasks\n" + "--------------");
-                    optionViewList(myList, 2);
+                    optionViewList(myList, COMPLETE);
                     System.out.printf("Which item would you like to mark as incomplete? ");
                     myList.humanUncompleteTaskItem();
+                    System.out.println();
                     break;
                 case 7:
                     break;
@@ -99,36 +113,40 @@ public class App {
         }
     }
 
-    public static void viewList(TaskList myList){
-        for (int i = 0; i < myList.getTaskItems().size(); i++){
-            if(myList.getTaskItems().get(i).getTaskCompletionStatus()){
-               System.out.printf("*** ");
-            }
-            System.out.println(i + ") [" + myList.getTaskItems().get(i).getTaskDueDate() + "] " +
-                    myList.getTaskItems().get(i).getTaskTitle() + ": " +
-                    myList.getTaskItems().get(i).getTaskDescription());
-        }
-        System.out.println();
-    }
-
     public static void optionViewList(TaskList myList, int option){
         switch(option){
-            case 1: //incomplete
+            case FULL:
+                if(myList.getTaskItems().size() == 0){
+                    System.out.println("No tasks in list\n");
+                } else {
+                    for (int i = 0; i < myList.getTaskItems().size(); i++) {
+                        if(myList.getCompletionStatus(i)){
+                            System.out.printf("[***] ");
+                        }
+                        System.out.println(i + ") [" + myList.getTaskDueDate(i) + "] " +
+                                myList.getTaskTitle(i) + ": " +
+                                myList.getTaskDescription(i));
+                    }
+                    System.out.println();
+                }
+                break;
+            case COMPLETE: //complete
                 for (int i = 0; i < myList.getTaskItems().size(); i++){
-                    if(!myList.getTaskItems().get(i).getTaskCompletionStatus()){
-                        System.out.println(i + ") [" + myList.getTaskItems().get(i).getTaskDueDate() + "] " +
-                                myList.getTaskItems().get(i).getTaskTitle() + ": " +
-                                myList.getTaskItems().get(i).getTaskDescription());
+                    if(myList.getCompletionStatus(i)){
+                        System.out.println(i + ") [" + myList.getTaskDueDate(i) + "] " +
+                                myList.getTaskTitle(i) + ": " +
+                                myList.getTaskDescription(i));
+
                     }
                 }
                 System.out.println();
                 break;
-            case 2: //complete
+            case INCOMPLETE: //complete
                 for (int i = 0; i < myList.getTaskItems().size(); i++){
-                    if(myList.getTaskItems().get(i).getTaskCompletionStatus()){
-                        System.out.println(i + ") [" + myList.getTaskItems().get(i).getTaskDueDate() + "] " +
-                                myList.getTaskItems().get(i).getTaskTitle() + ": " +
-                                myList.getTaskItems().get(i).getTaskDescription());
+                    if(!myList.getCompletionStatus(i)){
+                        System.out.println(i + ") [" + myList.getTaskDueDate(i) + "] " +
+                                myList.getTaskTitle(i) + ": " +
+                                myList.getTaskDescription(i));
                     }
                 }
                 System.out.println();

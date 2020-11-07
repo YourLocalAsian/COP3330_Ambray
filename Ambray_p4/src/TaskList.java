@@ -1,11 +1,6 @@
-import javax.lang.model.element.Element;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class TaskList {
@@ -134,7 +129,7 @@ public class TaskList {
             boolean pendingEdit = true;
             while (pendingEdit) {
                 System.out.printf("Enter a new title for task " + userIndex + ": ");
-                humanEditTaskItemName(userIndex);
+                humanEditTaskItemTitle(userIndex);
 
                 System.out.printf("Enter a new description for task " + userIndex + ": ");
                 humanEditTaskItemDescription(userIndex);
@@ -148,12 +143,13 @@ public class TaskList {
         }
     }
 
-    private void humanEditTaskItemName(int ElementIndex) {
+    private void humanEditTaskItemTitle(int ElementIndex) {
         boolean pendingTitleChange = true;
         while(pendingTitleChange) {
             try {
+                scnr.nextLine();
                 String userInput = askForInputString();
-                editTaskItemName(ElementIndex, userInput);
+                editTaskItemTitle(ElementIndex, userInput);
                 pendingTitleChange = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
                 System.out.println("Selected item does not exist");
@@ -164,15 +160,14 @@ public class TaskList {
         }
     }
 
-    public void editTaskItemName(int taskNumber, String userInput) throws Exception, IndexOutOfBoundsException{
+    public void editTaskItemTitle(int taskNumber, String userInput) throws Exception, IndexOutOfBoundsException{
         boolean nameIsInvalid = true;
         while (nameIsInvalid) {
             try {
-                String inputTaskTitle = scnr.nextLine();
-                getTaskItems().get(taskNumber).setTaskTitle(inputTaskTitle);
+                getTaskItems().get(taskNumber).setTaskTitle(userInput);
                 nameIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new IndexOutOfBoundsException();
+                throw new IndexOutOfBoundsException("Invalid index");
             } catch (Exception e) {
                 throw new Exception("Invalid name");
             }
@@ -221,27 +216,97 @@ public class TaskList {
                 getTaskItems().get(taskNumber).setTaskDueDate(userInput);
                 dateIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException){
-                throw new Exception("Invalid index");
+                throw new IndexOutOfBoundsException("Invalid index");
             } catch (Exception e) {
                 throw new Exception("Invalid date");
             }
         }
     }
 
-    public void getTaskTitle(int taskNumber) {
-    }
 
-    public void getTaskDescription(int taskNumber) {
-    }
-
-    public void getTaskDueDate(int taskNumber) {
+    public void humanRemoveTaskItem() {
+        int userIndex = askForElementIndex();
+        if (userIndex == -1) {
+            System.out.println("Selected item does not exist\n"); // do nothing
+        } else {
+            removeTaskItem(userIndex);
+        }
     }
 
     public void removeTaskItem(int taskNumber) {
+        boolean indexIsInvalid = true;
+        while (indexIsInvalid) {
+            try {
+                System.out.println(getTaskTitle(taskNumber) + " has been deleted\n");
+                getTaskItems().remove(taskNumber);
+                indexIsInvalid = false;
+            } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+        }
     }
+
+    public String getTaskTitle(int taskNumber) throws IndexOutOfBoundsException {
+        boolean indexIsInvalid = true;
+        String requestedTaskTitle = "";
+        while (indexIsInvalid) {
+            try {
+                requestedTaskTitle = getTaskItems().get(taskNumber).getTaskTitle();
+                indexIsInvalid = false;
+            } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+        }
+        return requestedTaskTitle;
+    }
+
+    public String getTaskDescription(int taskNumber) {
+        boolean indexIsInvalid = true;
+        String requestedTaskDescription = "";
+        while (indexIsInvalid) {
+            try {
+                requestedTaskDescription = getTaskItems().get(taskNumber).getTaskDescription();
+                indexIsInvalid = false;
+            } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+        }
+        return requestedTaskDescription;
+    }
+
+    public LocalDate getTaskDueDate(int taskNumber) {
+        boolean indexIsInvalid = true;
+        LocalDate requestedTaskDueDate = LocalDate.parse("1900-01-01");
+        while (indexIsInvalid) {
+            try {
+                requestedTaskDueDate = getTaskItems().get(taskNumber).getTaskDueDate();
+                indexIsInvalid = false;
+            } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+        }
+        return requestedTaskDueDate;
+    }
+
+    public boolean getCompletionStatus(int taskNumber){
+        boolean indexIsInvalid = true;
+        boolean requestedCompletionStatus = false;
+        while (indexIsInvalid) {
+            try {
+                requestedCompletionStatus = getTaskItems().get(taskNumber).getTaskCompletionStatus();
+                indexIsInvalid = false;
+            } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+        }
+        return requestedCompletionStatus;
+    }
+
+
 
     public void saveTaskList() {
     }
+
 
 
 }
