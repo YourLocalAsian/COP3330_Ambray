@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 
@@ -11,8 +10,7 @@ public class App {
     private static Scanner userInput = new Scanner(System.in);
 
     public static void main(String [] args){
-
-        //displayMainMenu();
+        runMainMenu();
         //System.out.println();
         TaskList myList = new TaskList();
         selectOperation(myList);
@@ -26,7 +24,12 @@ public class App {
             //exit program
     }
 
-    public static void displayMainMenu(){
+    private static void runMainMenu(){
+        displayMainMenu();
+        selectMainMenu();
+    }
+
+    private static void displayMainMenu(){
         System.out.printf("Main Menu\n" +
                         "---------\n" +
                         "1) create a new list\n" +
@@ -34,7 +37,7 @@ public class App {
                         "3) quit\n\n");
     }
 
-    public static void selectMainMenu(){
+    private static void selectMainMenu(){
         while(true){
             int userChoice = userInput.nextInt();
             switch(userChoice){
@@ -43,16 +46,21 @@ public class App {
                     selectOperation(myList);
                     break;
                 case 2:
+                    TaskList tempList = new TaskList();
+                    System.out.print("Select the file you want to open (add .txt file extension): ");
+                    tempList.humanLoadList();
+                    System.out.println();
+                    selectOperation(tempList);
                     break;
                 case 3:
-                    break;
+                    System.exit(1);
                 default:
                     System.out.println("Invalid operation. Select an option 1-3");
             }
         }
     }
 
-    public static void displayListOperationMenu(){
+    private static void displayListOperationMenu(){
         System.out.printf("List Operation Menu\n" +
                 "--------------------\n" +
                 "1) view the list\n" +
@@ -65,8 +73,9 @@ public class App {
                 "8) quit to the main menu\n\n");
     }
 
-    public static void selectOperation(TaskList myList){
-        while(true){
+    private static void selectOperation(TaskList myList){
+        boolean continueOperation = true;
+        while(continueOperation){
             displayListOperationMenu();
             int userChoice = userInput.nextInt();
             switch(userChoice){
@@ -98,22 +107,27 @@ public class App {
                     break;
                 case 6:
                     System.out.println("Complete tasks\n" + "--------------");
-                    optionViewList(myList, COMPLETE);
+                     optionViewList(myList, COMPLETE);
                     System.out.printf("Which item would you like to mark as incomplete? ");
                     myList.humanUncompleteTaskItem();
                     System.out.println();
                     break;
                 case 7:
+                    System.out.printf("What would you like save for list as? (add .txt file extension) ");
+                    myList.saveTaskList();
                     break;
                 case 8:
+                    continueOperation = false;
                     break;
                 default:
                     System.out.println("Invalid operation. Select an option 1-8");
             }
         }
+        runMainMenu();
+        System.out.println();
     }
 
-    public static void optionViewList(TaskList myList, int option){
+    private static void optionViewList(TaskList myList, int option){
         switch(option){
             case FULL:
                 if(myList.getTaskItems().size() == 0){
@@ -154,12 +168,5 @@ public class App {
         }
     }
 
-    public static void createNewList(){
-        //Create the list
-            //open a file write objects to it then close file
-            //create buffered writer
-            //store TaskItems in TaskList before XML serialization
-
-            //write to TaskList's XML to output
-    }
+    private static void createNewList(){ }
 }

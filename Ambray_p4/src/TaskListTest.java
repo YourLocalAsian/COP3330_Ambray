@@ -247,6 +247,18 @@ class TaskListTest {
     }
 
     @Test
-    public void savedTaskListCanBeLoaded(){}
+    public void savedTaskListCanBeLoaded(){
+        TaskList tempList = new TaskList();
+        try{
+            tempList.loadTaskList("test.txt");
+            assertEquals("Original Title", tempList.getTaskTitle(0));
+            assertEquals("Original Description", tempList.getTaskDescription(0));
+            assertEquals(LocalDate.parse("2000-01-01"), tempList.getTaskDueDate(0));
+            assertEquals(false, tempList.getCompletionStatus(0));
+        } catch (Exception e){
+            System.out.println("I don't know what happened");
+        }
+
+    }
 
 }

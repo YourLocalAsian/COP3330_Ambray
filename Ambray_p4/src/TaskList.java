@@ -1,7 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TaskList {
     private ArrayList<TaskItem> taskItems = new ArrayList<>(); // stores Accounts
@@ -47,18 +49,16 @@ public class TaskList {
                     System.out.println("Invalid date, enter in YYYY-MM-DD format");
                 }
             }
-
             break;
         }
     }
 
-    private String askForInputString(){
+    private static String askForInputString(){
         String userInput = scnr.nextLine();
         return userInput;
     }
 
     private int askForElementIndex() throws IndexOutOfBoundsException{
-        boolean inputIndex = true;
         int userInput = scnr.nextInt();
         if (userInput > (getTaskItems().size() -1 ) || getTaskItems().size() == 0) {
             return -1;
@@ -76,8 +76,8 @@ public class TaskList {
                 humanOperationPending = false;
             } catch (Exception e) {
                 scnr.nextLine();
-                System.out.println("Invalid index");
-                System.out.println();
+                System.out.println("The selected item does not exist");
+                break;
             }
         }
     }
@@ -91,8 +91,8 @@ public class TaskList {
                 humanOperationPending = false;
             } catch (Exception e) {
                 scnr.nextLine();
-                System.out.println("Invalid index");
-                System.out.println();
+                System.out.println("The selected item does not exist");
+                break;
             }
         }
     }
@@ -223,7 +223,6 @@ public class TaskList {
         }
     }
 
-
     public void humanRemoveTaskItem() {
         int userIndex = askForElementIndex();
         if (userIndex == -1) {
@@ -296,19 +295,70 @@ public class TaskList {
                 requestedCompletionStatus = getTaskItems().get(taskNumber).getTaskCompletionStatus();
                 indexIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new IndexOutOfBoundsException("Invalid index");
+                System.out.println("The selected item does not exist");
+                return false;
             }
         }
         return requestedCompletionStatus;
     }
 
-
-
     public void saveTaskList() {
+        String userExport = askForInputString();
+        boolean pendingSave = true;
+        while(pendingSave){
+            if (getTaskItems().size() == 0){
+                System.out.println("This list is empty\n");
+                break;
+            } else {
+                try (Formatter output = new Formatter(userExport)) {
+                    for (int i = 0; i < getTaskItems().size(); i++) {
+                        output.format("%s\n%s\n%s\n%s\n", getTaskTitle(i),
+                                getTaskDescription(i), getTaskDueDate(i).toString(), getCompletionStatus(i));
+                        output.format("\n");
+                    }
+                    output.format("-1");
+                    break;
+                } catch (SecurityException | FileNotFoundException | FormatterClosedException | NoSuchElementException e) {
+                    File myFile = new File(userExport);
+                } finally {
+                    pendingSave = false;;
+                    System.out.println();
+                }
+            }
+        }
     }
 
+    public void humanLoadList(){
+        boolean pendingLoad = true;
+        while(pendingLoad) {
+            try {
+                String userInput = askForInputString();
+                loadTaskList(userInput);
+                pendingLoad = false;
+            } catch (NoSuchElementException |
+                    IllegalStateException e) {
+                System.out.println("File does not exist");
+            }
+        }
+    }
 
-
+    public void loadTaskList(String userImport) {
+        try (Scanner input = new Scanner(Paths.get(userImport))) {
+            String endLoad = "";
+            while(!endLoad.equals("-1")) {
+                endLoad = input.nextLine();
+                TaskItem newTask = new TaskItem(endLoad, input.nextLine(), input.nextLine());
+                newTask.setTaskCompletionStatus(Boolean.valueOf(input.nextLine()));
+                getTaskItems().add(newTask);
+                input.nextLine();
+            }
+        } catch (IOException | NoSuchElementException |
+                IllegalStateException e) {
+            System.out.println("File does not exist");
+        } catch (Exception e){
+            System.out.println("Invalid entry");
+        }
+    }
 }
 
 
