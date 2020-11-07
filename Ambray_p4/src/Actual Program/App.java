@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class App {
@@ -5,25 +6,17 @@ public class App {
     static final int INCOMPLETE = 1;
     static final int COMPLETE = 2;
 
+    static final int CREATE = 0;
+    static final int LOAD = 1;
+    static final int QUIT = 2;
+
     static int completeCounter = 0;
     static int incompleteCounter = 0;
 
     private static Scanner userInput = new Scanner(System.in);
 
     public static void main(String [] args){
-
         runMainMenu();
-        //System.out.println();
-        TaskList myList = new TaskList();
-        selectOperation(myList);
-
-        //Open a list
-            //try to open file for deserialization
-                    //unmarshal the files contents
-                    //display contents
-
-        //Quit program
-            //exit program
     }
 
     private static void runMainMenu(){
@@ -43,25 +36,21 @@ public class App {
         while(true){
             int userChoice = userInput.nextInt();
             switch(userChoice){
-                case 1:
+                case CREATE:
                     TaskList myList = new TaskList();
                     selectOperation(myList);
                     break;
-                case 2:
+                case LOAD:
                     TaskList tempList = new TaskList();
                     System.out.print("Select the file you want to open (add .txt file extension): ");
-                    try{
-                        tempList.humanLoadList();
-                        System.out.println();
-                        selectOperation(tempList);
-                        break;
-                    } catch (Exception e){
-                        break;
-                    }
-                case 3:
+                    tempList.humanLoadList();
+                    System.out.println();
+                    selectOperation(tempList);
+                case QUIT:
                     System.exit(1);
                 default:
                     System.out.println("Invalid operation. Select an option 1-3");
+                    break;
             }
         }
     }
@@ -183,5 +172,4 @@ public class App {
         }
     }
 
-    private static void createNewList(){ }
 }

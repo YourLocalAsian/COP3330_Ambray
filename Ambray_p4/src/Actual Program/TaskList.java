@@ -328,22 +328,20 @@ public class TaskList {
         }
     }
 
-    public void humanLoadList() throws Exception{
+    public void humanLoadList(){
         boolean pendingLoad = true;
         while(pendingLoad) {
             try {
                 String userInput = askForInputString();
                 loadTaskList(userInput);
                 pendingLoad = false;
-            } catch (NoSuchElementException |
-                    IllegalStateException e) {
+            } catch (Exception e) {
                 System.out.println("File does not exist");
-                throw new Exception("You messed up");
             }
         }
     }
 
-    public void loadTaskList(String userImport) {
+    public void loadTaskList(String userImport){
         try (Scanner input = new Scanner(Paths.get(userImport))) {
             String endLoad = "";
             while(!endLoad.equals("-1")) {
@@ -355,7 +353,7 @@ public class TaskList {
             }
         } catch (IOException | NoSuchElementException |
                 IllegalStateException e) {
-            System.out.println("File does not exist");
+            System.out.println("File does not exist. A new list has been created for you.");
         } catch (Exception e){
             System.out.println("Invalid entry");
         }
