@@ -1,17 +1,16 @@
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class App {
-    static final int FULL = 0;
-    static final int INCOMPLETE = 1;
-    static final int COMPLETE = 2;
+    private static final int FULL = 0;
+    private static final int INCOMPLETE = 1;
+    private static final int COMPLETE = 2;
 
-    static final int CREATE = 0;
-    static final int LOAD = 1;
-    static final int QUIT = 2;
+    private static final int CREATE = 0;
+    private static final int LOAD = 1;
+    private static final int QUIT = 2;
 
-    static int completeCounter = 0;
-    static int incompleteCounter = 0;
+    private static int completeCounter = 0;
+    private static int incompleteCounter = 0;
 
     private static Scanner userInput = new Scanner(System.in);
 

@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class TaskList {
+    private static Scanner scnr = new Scanner(System.in);
+
     private ArrayList<TaskItem> taskItems = new ArrayList<>(); // stores Accounts
 
-    private static Scanner scnr = new Scanner(System.in);
-    // returns the List<Accounts>
     public List<TaskItem> getTaskItems() {
         return taskItems;
     }
@@ -97,7 +97,7 @@ public class TaskList {
         }
     }
 
-    public void completeTaskItem(int ElementIndex) throws Exception {
+    private void completeTaskItem(int ElementIndex) throws Exception {
         boolean pendingCompleteStatus = true;
         while(pendingCompleteStatus){
             try {
@@ -109,7 +109,7 @@ public class TaskList {
         }
     }
 
-    public void uncompleteTaskItem(int ElementIndex) throws Exception {
+    private void uncompleteTaskItem(int ElementIndex) throws Exception {
         boolean pendingUncompleteStatus = true;
         while(pendingUncompleteStatus){
             try {
@@ -160,7 +160,7 @@ public class TaskList {
         }
     }
 
-    public void editTaskItemTitle(int taskNumber, String userInput) throws Exception, IndexOutOfBoundsException{
+    private void editTaskItemTitle(int taskNumber, String userInput) throws Exception, IndexOutOfBoundsException{
         boolean nameIsInvalid = true;
         while (nameIsInvalid) {
             try {
@@ -187,7 +187,7 @@ public class TaskList {
         }
     }
 
-    public void editTaskItemDescription(int taskNumber, String userInput) throws Exception{
+    private void editTaskItemDescription(int taskNumber, String userInput) throws Exception{
         try {
             getTaskItems().get(taskNumber).setTaskDescription(userInput);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
@@ -209,7 +209,7 @@ public class TaskList {
         }
     }
 
-    public void editTaskItemDueDate(int taskNumber, String userInput) throws Exception{
+    private void editTaskItemDueDate(int taskNumber, String userInput) throws Exception{
         boolean dateIsInvalid = true;
         while (dateIsInvalid) {
             try {
@@ -232,7 +232,7 @@ public class TaskList {
         }
     }
 
-    public void removeTaskItem(int taskNumber) {
+    private void removeTaskItem(int taskNumber) {
         boolean indexIsInvalid = true;
         while (indexIsInvalid) {
             try {
@@ -341,7 +341,7 @@ public class TaskList {
         }
     }
 
-    public void loadTaskList(String userImport){
+    private void loadTaskList(String userImport){
         try (Scanner input = new Scanner(Paths.get(userImport))) {
             String endLoad = "";
             while(!endLoad.equals("-1")) {
