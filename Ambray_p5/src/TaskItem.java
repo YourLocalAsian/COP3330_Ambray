@@ -12,7 +12,7 @@ public class TaskItem {
             if(taskTitle.length() > 0) {
                 this.taskTitle = taskTitle;
             } else {
-              throw new Exception("Invalid title");
+              throw new Exception("Unable to create item: Invalid title");
             }
 
             this.taskDescription = taskDescription;
@@ -20,7 +20,7 @@ public class TaskItem {
 
         } catch (DateTimeParseException dateTimeParseException){
             System.out.println();
-            throw new Exception("Invalid date");
+            throw new Exception("Unable to create item: Invalid date");
         }
     }
 
@@ -32,7 +32,7 @@ public class TaskItem {
             if (taskTitle.length() > 0) {
                 this.taskTitle = taskTitle;
             } else {
-                throw new Exception("Invalid title");
+                throw new Exception("Unable to edit item: Invalid title");
             }
     }
 
@@ -53,7 +53,7 @@ public class TaskItem {
             this.taskDueDate = LocalDate.parse(strTaskDueDate);
         } catch (DateTimeParseException dateTimeParseException){
             System.out.println();
-            throw new Exception("Invalid date");
+            throw new Exception("Unable to edit item: Invalid date");
         }
     }
 

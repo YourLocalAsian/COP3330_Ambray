@@ -9,20 +9,15 @@ class TaskItemTest {
             TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
             final String successMessage = "Valid title";
             assertEquals("Valid title", successMessage);
-        } catch (Exception e){
-            final String message = "Invalid title";
-            assertEquals(message, e.getMessage());
-        }
+        } catch (Exception e){}
     }
 
     @Test
     public void creatingTaskItemFailsWithInvalidTitle(){
         try{
             TaskItem item = new TaskItem("", "Description", "2001-07-26");
-            final String successMessage = "Valid title";
-            assertEquals("Valid title", successMessage);
         } catch (Exception e){
-            final String message = "Invalid title";
+            final String message = "Unable to create item: Invalid title";
             assertEquals(message, e.getMessage());
         }
     }
@@ -34,10 +29,7 @@ class TaskItemTest {
             item.setTaskTitle("New Title");
             final String successMessage = "Valid title";
             assertEquals("Valid title", successMessage);
-        } catch (Exception e){
-            final String message = "Invalid title";
-            assertEquals(message, e.getMessage());
-        }
+        } catch (Exception e){}
     }
 
     @Test
@@ -45,10 +37,8 @@ class TaskItemTest {
         try{
             TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
             item.setTaskTitle("");
-            final String successMessage = "Valid title";
-            assertEquals("Valid title", successMessage);
         } catch (Exception e){
-            final String message = "Invalid title";
+            final String message = "Unable to edit item: Invalid title";
             assertEquals(message, e.getMessage());
         }
     }
@@ -59,20 +49,15 @@ class TaskItemTest {
             TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
             final String successMessage = "Valid date";
             assertEquals("Valid date", successMessage);
-        } catch (Exception e){
-            final String message = "Invalid date";
-            assertEquals(message, e.getMessage());
-        }
+        } catch (Exception e){}
     }
 
     @Test
     public void creatingTaskItemFailsWithInvalidDueDate(){
         try{
             TaskItem item = new TaskItem("Test", "Description", "42");
-            final String successMessage = "Valid date";
-            assertEquals("Valid date", successMessage);
         } catch (Exception e){
-            final String message = "Invalid date";
+            final String message = "Unable to create item: Invalid date";
             assertEquals(message, e.getMessage());
         }
     }
@@ -84,10 +69,7 @@ class TaskItemTest {
             item.setTaskDueDate("2020-01-01");
             final String successMessage = "Valid date";
             assertEquals("Valid date", successMessage);
-        } catch (Exception e){
-            final String message = "Invalid date";
-            assertEquals(message, e.getMessage());
-        }
+        } catch (Exception e){}
     }
 
     @Test
@@ -95,10 +77,8 @@ class TaskItemTest {
         try{
             TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
             item.setTaskDueDate("42");
-            final String successMessage = "Valid date";
-            assertEquals("Valid date", successMessage);
         } catch (Exception e){
-            final String message = "Invalid date";
+            final String message = "Unable to edit item: Invalid date";
             assertEquals(message, e.getMessage());
         }
     }
