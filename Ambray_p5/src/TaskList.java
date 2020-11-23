@@ -58,7 +58,7 @@ public class TaskList {
         return userInput;
     }
 
-    private int askForElementIndex() throws IndexOutOfBoundsException{
+    public int askForElementIndex() throws IndexOutOfBoundsException{
         int userInput = scnr.nextInt();
         if (userInput > (getTaskItems().size() -1 ) || getTaskItems().size() == 0) {
             return -1;
@@ -97,26 +97,26 @@ public class TaskList {
         }
     }
 
-    private void completeTaskItem(int ElementIndex) throws Exception {
+    public void completeTaskItem(int ElementIndex) throws Exception {
         boolean pendingCompleteStatus = true;
         while(pendingCompleteStatus){
             try {
                 getTaskItems().get(ElementIndex).setTaskCompletionStatus(true);
                 pendingCompleteStatus = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new Exception("Invalid index");
+                throw new Exception("Unable to mark item as complete: Invalid index");
             }
         }
     }
 
-    private void uncompleteTaskItem(int ElementIndex) throws Exception {
+    public void uncompleteTaskItem(int ElementIndex) throws Exception {
         boolean pendingUncompleteStatus = true;
         while(pendingUncompleteStatus){
             try {
                 getTaskItems().get(ElementIndex).setTaskCompletionStatus(false);
                 pendingUncompleteStatus = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new Exception("Invalid index");
+                throw new Exception("Unable to mark item as incomplete: Invalid index");
             }
         }
     }
@@ -143,7 +143,7 @@ public class TaskList {
         }
     }
 
-    private void humanEditTaskItemTitle(int ElementIndex) {
+    public void humanEditTaskItemTitle(int ElementIndex) {
         boolean pendingTitleChange = true;
         while(pendingTitleChange) {
             try {
@@ -160,21 +160,21 @@ public class TaskList {
         }
     }
 
-    private void editTaskItemTitle(int taskNumber, String userInput) throws Exception, IndexOutOfBoundsException{
+    public void editTaskItemTitle(int taskNumber, String userInput) throws Exception, IndexOutOfBoundsException{
         boolean nameIsInvalid = true;
         while (nameIsInvalid) {
             try {
                 getTaskItems().get(taskNumber).setTaskTitle(userInput);
                 nameIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new IndexOutOfBoundsException("Invalid index");
+                throw new IndexOutOfBoundsException("Unable to edit name: Invalid index");
             } catch (Exception e) {
-                throw new Exception("Invalid name");
+                throw new Exception("Unable to edit name: Invalid name");
             }
         }
     }
 
-    private void humanEditTaskItemDescription(int ElementIndex){
+    public void humanEditTaskItemDescription(int ElementIndex){
         boolean pendingDescriptionChange = true;
         while(pendingDescriptionChange) {
             try {
@@ -187,15 +187,15 @@ public class TaskList {
         }
     }
 
-    private void editTaskItemDescription(int taskNumber, String userInput) throws Exception{
+    public void editTaskItemDescription(int taskNumber, String userInput) throws Exception{
         try {
             getTaskItems().get(taskNumber).setTaskDescription(userInput);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-            throw new Exception("Invalid index");
+            throw new Exception("Unable to edit description: Invalid index");
         }
     }
 
-    private void humanEditTaskItemDueDate(int ElementIndex){
+    public void humanEditTaskItemDueDate(int ElementIndex){
         boolean pendingDueDateChange = true;
         while(pendingDueDateChange) {
             try {
@@ -209,16 +209,16 @@ public class TaskList {
         }
     }
 
-    private void editTaskItemDueDate(int taskNumber, String userInput) throws Exception{
+    public void editTaskItemDueDate(int taskNumber, String userInput) throws Exception{
         boolean dateIsInvalid = true;
         while (dateIsInvalid) {
             try {
                 getTaskItems().get(taskNumber).setTaskDueDate(userInput);
                 dateIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException){
-                throw new IndexOutOfBoundsException("Invalid index");
+                throw new IndexOutOfBoundsException("Unable to edit date: Invalid index");
             } catch (Exception e) {
-                throw new Exception("Invalid date");
+                throw new Exception("Unable to edit date: Invalid date");
             }
         }
     }
@@ -232,7 +232,7 @@ public class TaskList {
         }
     }
 
-    private void removeTaskItem(int taskNumber) {
+    public void removeTaskItem(int taskNumber) {
         boolean indexIsInvalid = true;
         while (indexIsInvalid) {
             try {
@@ -240,7 +240,7 @@ public class TaskList {
                 getTaskItems().remove(taskNumber);
                 indexIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new IndexOutOfBoundsException("Invalid index");
+                throw new IndexOutOfBoundsException("Unable to remove item: Invalid index");
             }
         }
     }
@@ -253,7 +253,7 @@ public class TaskList {
                 requestedTaskTitle = getTaskItems().get(taskNumber).getTaskTitle();
                 indexIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new IndexOutOfBoundsException("Invalid index");
+                throw new IndexOutOfBoundsException("Unable to get title: Invalid index");
             }
         }
         return requestedTaskTitle;
@@ -267,7 +267,7 @@ public class TaskList {
                 requestedTaskDescription = getTaskItems().get(taskNumber).getTaskDescription();
                 indexIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new IndexOutOfBoundsException("Invalid index");
+                throw new IndexOutOfBoundsException("Unable to get description: Invalid index");
             }
         }
         return requestedTaskDescription;
@@ -281,7 +281,7 @@ public class TaskList {
                 requestedTaskDueDate = getTaskItems().get(taskNumber).getTaskDueDate();
                 indexIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                throw new IndexOutOfBoundsException("Invalid index");
+                throw new IndexOutOfBoundsException("Unable to get date: Invalid index");
             }
         }
         return requestedTaskDueDate;
@@ -341,7 +341,7 @@ public class TaskList {
         }
     }
 
-    private void loadTaskList(String userImport){
+    public void loadTaskList(String userImport){
         try (Scanner input = new Scanner(Paths.get(userImport))) {
             String endLoad = "";
             while(!endLoad.equals("-1")) {
