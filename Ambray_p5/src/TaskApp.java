@@ -1,3 +1,4 @@
+import javax.sound.midi.Soundbank;
 import java.util.Scanner;
 
 public class TaskApp {
@@ -5,16 +6,16 @@ public class TaskApp {
     private static final int INCOMPLETE = 1;
     private static final int COMPLETE = 2;
 
-    private static final int CREATE = 0;
-    private static final int LOAD = 1;
-    private static final int QUIT = 2;
+    private static final int CREATE = 1;
+    private static final int LOAD = 2;
+    private static final int QUIT = 3;
 
     private static int completeCounter = 0;
     private static int incompleteCounter = 0;
 
     private static Scanner userInput = new Scanner(System.in);
 
-    public static void main(String [] args){
+    public static void taskMain(){
         runMainMenu();
     }
 
@@ -24,15 +25,16 @@ public class TaskApp {
     }
 
     private static void displayMainMenu(){
-        System.out.printf("Main Menu\n" +
-                        "---------\n" +
+        System.out.printf("Task App Main Menu\n" +
+                        "------------------\n" +
                         "1) create a new list\n" +
                         "2) load an existing list\n" +
                         "3) quit\n\n");
     }
 
     private static void selectMainMenu(){
-        while(true){
+        boolean continueOperation = true;
+        while(continueOperation){
             int userChoice = userInput.nextInt();
             switch(userChoice){
                 case CREATE:
@@ -45,13 +47,16 @@ public class TaskApp {
                     tempList.humanLoadList();
                     System.out.println();
                     selectOperation(tempList);
+                    break;
                 case QUIT:
-                    System.exit(1);
+                    continueOperation = false;
+                    break;
                 default:
                     System.out.println("Invalid operation. Select an option 1-3");
                     break;
             }
         }
+        MainApp.runAppMainMenu();
     }
 
     private static void displayListOperationMenu(){
@@ -106,7 +111,7 @@ public class TaskApp {
                 case 6:
                     System.out.println("Complete tasks\n" + "--------------");
                      optionViewList(myList, COMPLETE);
-                    if(incompleteCounter != 0) {
+                    if(completeCounter != 0) {
                         System.out.printf("Which item would you like to mark as incomplete? ");
                         myList.humanUncompleteTaskItem();
                         System.out.println();
