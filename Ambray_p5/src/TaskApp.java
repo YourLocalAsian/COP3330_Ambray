@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class App {
+public class TaskApp {
     private static final int FULL = 0;
     private static final int INCOMPLETE = 1;
     private static final int COMPLETE = 2;
