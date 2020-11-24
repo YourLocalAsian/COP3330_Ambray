@@ -113,8 +113,10 @@ class TaskListTest {
     }
 
     //Editing Fields
+
+        //Title Tests
     @Test
-    public void editingTaskItemTitleChangesValue(){
+    public void editingTaskItemTitleSucceedsWithExpectedValue(){
         TaskList taskList = new TaskList();
         try {
             TaskItem task0 = new TaskItem("Original Title", "Original Description", "2001-07-26");
@@ -138,7 +140,21 @@ class TaskListTest {
     }
 
     @Test
-    public void editingTaskItemDescriptionChangesValue(){
+    public void editingItemTitleFailsWithEmptyString(){
+        TaskList taskList = new TaskList();
+        try {
+            TaskItem task0 = new TaskItem("Original Title", "Original Description", "2001-07-26");
+            taskList.getTaskItems().add(task0);
+            taskList.editTaskItemTitle(0, "");
+        } catch (Exception e) {
+            final String failMessage = "Unable to edit name: Invalid name";
+            assertEquals(failMessage, e.getMessage());
+        }
+    }
+
+        //Description Tests
+    @Test
+    public void editingTaskItemDescriptionSucceedsWithExpectedValue(){
         TaskList taskList = new TaskList();
         try {
             TaskItem task0 = new TaskItem("Original Title", "Original Description", "2001-07-26");
@@ -161,8 +177,9 @@ class TaskListTest {
         }
     }
 
+        //Due Date Tests
     @Test
-    public void editingTaskItemDueDateChangesValue(){
+    public void editingTaskItemDueDateSucceedsWithExpectedValue(){
         TaskList taskList = new TaskList();
         try {
             TaskItem task0 = new TaskItem("Original Title", "Original Description", "2001-07-26");
@@ -187,7 +204,34 @@ class TaskListTest {
         }
     }
 
+    @Test
+    public void editingTaskItemDueDateFailsWithInvalidDateFormat(){
+        TaskList taskList = new TaskList();
+        try {
+            TaskItem task0 = new TaskItem("Original Title", "Original Description", "2001-07-26");
+            taskList.getTaskItems().add(task0);
+            taskList.editTaskItemDueDate(0, "42");
+        } catch (Exception e) {
+            final String failMessage = "Unable to edit date: Invalid date";
+            assertEquals(failMessage, e.getMessage());
+        }
+    }
+
+    @Test
+    public void editingTaskItemDueDateFailsWithInvalidYYYMMDD(){
+        TaskList taskList = new TaskList();
+        try {
+            TaskItem task0 = new TaskItem("Original Title", "Original Description", "2001-07-26");
+            taskList.getTaskItems().add(task0);
+            taskList.editTaskItemDueDate(0, "0000-00-00");
+        } catch (Exception e) {
+            final String failMessage = "Unable to edit date: Invalid date";
+            assertEquals(failMessage, e.getMessage());
+        }
+    }
+
     //Getting Fields
+        //Title Tests
     @Test
     public void gettingTaskItemTitleSucceedsWithValidIndex(){
         TaskList taskList = new TaskList();
@@ -210,6 +254,7 @@ class TaskListTest {
         }
     }
 
+        //Description Tests
     @Test
     public void gettingTaskItemDescriptionSucceedsWithValidIndex(){
         TaskList taskList = new TaskList();
@@ -232,6 +277,7 @@ class TaskListTest {
         }
     }
 
+        //Due Date Tests
     @Test
     public void gettingTaskItemDueDateSucceedsWithValidIndex(){
         TaskList taskList = new TaskList();

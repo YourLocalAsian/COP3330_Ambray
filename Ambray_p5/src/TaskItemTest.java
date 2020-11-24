@@ -1,8 +1,11 @@
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskItemTest {
+    //Title Tests
     @Test
     public void creatingTaskItemSucceedsWithValidTitle(){
         try{
@@ -23,12 +26,12 @@ class TaskItemTest {
     }
 
     @Test
-    public void settingTaskItemTitleSucceedsWithValidTitle(){
+    public void settingTaskItemTitleSucceedsExpectedValue(){
         try{
             TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
-            item.setTaskTitle("New Title");
-            final String successMessage = "Valid title";
-            assertEquals("Valid title", successMessage);
+            item.setTaskTitle("New title");
+            assertEquals("New title", item.getTaskTitle());
+            assertNotEquals("Test", item.getTaskTitle());
         } catch (Exception e){}
     }
 
@@ -43,6 +46,7 @@ class TaskItemTest {
         }
     }
 
+    //Date Tests
     @Test
     public void creatingTaskItemSucceedsWithValidDueDate(){
         try{
@@ -63,17 +67,16 @@ class TaskItemTest {
     }
 
     @Test
-    public void settingTaskItemDueDateSucceedsWithValidDate(){
+    public void settingTaskItemDueDateSucceedsWithExpectedValue(){
         try{
             TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
             item.setTaskDueDate("2020-01-01");
-            final String successMessage = "Valid date";
-            assertEquals("Valid date", successMessage);
+            assertEquals(LocalDate.parse("2020-01-01"), item.getTaskDueDate());
         } catch (Exception e){}
     }
 
     @Test
-    public void settingTaskItemDueDateFailsWithInvalidDate(){
+    public void settingTaskItemDueDateFailsWithInvalidDateFormat(){
         try{
             TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
             item.setTaskDueDate("42");
@@ -83,7 +86,26 @@ class TaskItemTest {
         }
     }
 
+    @Test
+    public void settingTaskItemDueDateFailsWithInvalidDateYYYYMMDD(){
+        try{
+            TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
+            item.setTaskDueDate("0000-00-00");
+        } catch (Exception e){
+            final String message = "Unable to edit item: Invalid date";
+            assertEquals(message, e.getMessage());
+        }
+    }
 
-
+    //Description Tests
+    @Test
+    public void settingTaskDescriptionSucceedsWithExpectedValue(){
+        try{
+            TaskItem item = new TaskItem("Test", "Description", "2001-07-26");
+            item.setTaskDescription("New Description");
+            assertEquals("New Description", item.getTaskDescription());
+            assertNotEquals("Description", item.getTaskDescription());
+        } catch (Exception e){}
+    }
 
 }
