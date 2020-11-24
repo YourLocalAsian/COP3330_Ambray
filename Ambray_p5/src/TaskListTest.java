@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -255,13 +258,12 @@ class TaskListTest {
     public void savedTaskListCanBeLoaded(){
         TaskList tempList = new TaskList();
         try{
-            tempList.loadTaskList("test.txt");
+            tempList.loadTaskList("testTask.txt");
             assertEquals("Original Title", tempList.getTaskTitle(0));
             assertEquals("Original Description", tempList.getTaskDescription(0));
             assertEquals(LocalDate.parse("2000-01-01"), tempList.getTaskDueDate(0));
-            assertEquals(false, tempList.getCompletionStatus(0));
         } catch (Exception e){
-            System.out.println("To be honest, I don't know what happened");
+            e.printStackTrace();
         }
 
     }

@@ -178,7 +178,7 @@ public class ContactList {
                 System.out.println("This list is empty\n");
                 break;
             } else {
-                try (Formatter output = new Formatter(userExport)) {
+                try (Formatter output = new Formatter("src/" +userExport)) {
                     for (int i = 0; i < getContacts().size(); i++) {
                         output.format("%s\n%s\n%s\n%s\n", getFirstName(i),
                                 getLastName(i), getPhoneNumber(i), getEmailAddress(i));
@@ -210,17 +210,21 @@ public class ContactList {
     }
 
     public void loadTaskList(String userImport){
-        try (Scanner input = new Scanner(Paths.get(userImport))) {
-            String endLoad = "";
-            while(!endLoad.equals("-1")) {
-                endLoad = input.nextLine();
-                ContactItem newContact = new ContactItem(endLoad, input.nextLine(), input.nextLine(), input.nextLine());
-                getContacts().add(newContact);
-                input.nextLine();
+        String endLoad = "";
+        try (Scanner input = new Scanner(Paths.get("src/"+ userImport))) {
+            while(true) {
+                if(!endLoad.equals("-1")){
+                    endLoad = input.nextLine();
+                    ContactItem newContact = new ContactItem(endLoad, input.nextLine(), input.nextLine(),
+                            input.nextLine());
+                    getContacts().add(newContact);
+                    input.nextLine();
+                }
             }
-        } catch (IOException | NoSuchElementException |
+        } catch (NoSuchElementException |
                 IllegalStateException e) {
-            System.out.println("File does not exist. A new list has been created for you.");
+        } catch (IOException e){
+            System.out.println("File does not exist. A new list has been made for you.");
         } catch (Exception e){
             System.out.println("Invalid entry");
         }

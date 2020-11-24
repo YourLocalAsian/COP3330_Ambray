@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
+import java.lang.IllegalStateException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class TaskList {
     private static Scanner scnr = new Scanner(System.in);
@@ -310,7 +313,7 @@ public class TaskList {
                 System.out.println("This list is empty\n");
                 break;
             } else {
-                try (Formatter output = new Formatter(userExport)) {
+                try (Formatter output = new Formatter("src/" +userExport)) {
                     for (int i = 0; i < getTaskItems().size(); i++) {
                         output.format("%s\n%s\n%s\n%s\n", getTaskTitle(i),
                                 getTaskDescription(i), getTaskDueDate(i).toString(), getCompletionStatus(i));
@@ -342,18 +345,22 @@ public class TaskList {
     }
 
     public void loadTaskList(String userImport){
-        try (Scanner input = new Scanner(Paths.get(userImport))) {
-            String endLoad = "";
-            while(!endLoad.equals("-1")) {
-                endLoad = input.nextLine();
-                TaskItem newTask = new TaskItem(endLoad, input.nextLine(), input.nextLine());
-                newTask.setTaskCompletionStatus(Boolean.valueOf(input.nextLine()));
-                getTaskItems().add(newTask);
-                input.nextLine();
+        String endLoad = "";
+        try (Scanner input = new Scanner(Paths.get("src/"+ userImport))) {
+            while(true) {
+                if(!endLoad.equals("-1")){
+                    endLoad = input.nextLine();
+                    TaskItem newTask = new TaskItem(endLoad, input.nextLine(), input.nextLine());
+                    String tempBool = input.nextLine();
+                    newTask.setTaskCompletionStatus(Boolean.valueOf(tempBool));
+                    getTaskItems().add(newTask);
+                    input.nextLine();
+                }
             }
-        } catch (IOException | NoSuchElementException |
+        } catch (NoSuchElementException |
                 IllegalStateException e) {
-            System.out.println("File does not exist. A new list has been created for you.");
+        } catch (IOException e){
+            System.out.println("File does not exist. A new list has been made for you.");
         } catch (Exception e){
             System.out.println("Invalid entry");
         }
