@@ -61,23 +61,37 @@ class ContactListTest {
 
     //Editing Tests
     @Test
-    public void editingItemsFailsWithAllBlankValues(){}
+    public void editingSucceedsWithNonBlankValues(){
+
+    }
 
     @Test
-    public void editingItemsFailsWithInvalidIndex(){}
+    public void editingSucceedsWithBlankFirstName(){
+
+    }
 
     @Test
-    public void editingSucceedsWithBlankFirstName(){}
+    public void editingSucceedsWithBlankLastName(){
+
+    }
 
     @Test
-    public void editingSucceedsWithBlankLastName(){}
+    public void editingSucceedsWithBlankPhone(){
+
+    }
 
     @Test
-    public void editingSucceedsWithBlankPhone(){}
+    public void editingItemsFailsWithAllBlankValues(){
+
+    }
 
     @Test
-    public void editingSucceedsWithNonBlankValues(){}
+    public void editingItemsFailsWithInvalidIndex(){
 
+    }
+
+
+    //Load Test
     @Test
     public void savedContactListCanBeLoaded(){
         ContactList tempList = new ContactList();

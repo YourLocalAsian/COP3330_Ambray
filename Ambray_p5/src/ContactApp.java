@@ -78,7 +78,7 @@ public class ContactApp {
                     System.out.println("Current contacts\n" + "--------------");
                     optionViewList(myList);
                     System.out.printf("Which contact will you edit? ");
-                    myList.editContact();
+                    myList.humanEditContact();
                     break;
                 case 4:
                     System.out.println("Current contacts\n" + "--------------");
@@ -106,6 +106,7 @@ public class ContactApp {
             System.out.println("No contacts in list\n");
         } else {
             for (int i = 0; i < myList.getContacts().size(); i++) {
+                System.out.printf("Contact #%d\n", i);
                 System.out.println(myList.getContacts().get(i));
             }
             System.out.println();

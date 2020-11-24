@@ -57,38 +57,50 @@ public class ContactList {
         }
     }
 
-    public void editContact(){
+    public void humanEditContact(){
         int userIndex = askForElementIndex();
         if (userIndex == -1){
             System.out.println("Selected item does not exist\n"); // do nothing
         } else {
             boolean pendingEdit = true;
             while (pendingEdit) {
-                String firstName = "";
-                String lastName = "";
-                String phoneNumber = "";
-                String emailAddress = "";
+                try {
+                    String firstName = "";
 
-                System.out.print("Enter a new first name: ");
-                firstName = scnr.nextLine();
+                    String lastName = "";
+                    String phoneNumber = "";
+                    String emailAddress = "";
 
-                System.out.print("Enter a new last name: ");
-                lastName = scnr.nextLine();
+                    System.out.print("Enter a new first name: ");
+                    firstName = scnr.nextLine();
 
-                System.out.print("Enter a new phone number: ");
-                phoneNumber = scnr.nextLine();
+                    System.out.print("Enter a new last name: ");
+                    lastName = scnr.nextLine();
 
-                System.out.print("Enter a new email address: ");
-                emailAddress = scnr.nextLine();
+                    System.out.print("Enter a new phone number: ");
+                    phoneNumber = scnr.nextLine();
 
-                try{
-                    getContacts().get(userIndex).editContactInformation(firstName,lastName,phoneNumber,emailAddress);
+                    System.out.print("Enter a new email address: ");
+                    emailAddress = scnr.nextLine();
+
+                    editContact(userIndex, firstName, lastName, phoneNumber, emailAddress);
                     System.out.println();
                     pendingEdit = false;
-                } catch (Exception e) {
-                    System.out.println("Unable to create contact: All fields were left blank");
+                } catch (IndexOutOfBoundsException indexOutOfBoundsException){
+                    System.out.println("Unable to edit contact: Invalid index");
+                } catch (Exception e){}
                 }
             }
+    }
+
+    public void editContact(int userIndex, String firstName, String lastName, String phoneNumber, String emailAddress) throws Exception {
+        try {
+            getContacts().get(userIndex).editContactInformation(firstName, lastName, phoneNumber, emailAddress);
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+            throw new IndexOutOfBoundsException("Unable to edit contact: Invalid index");
+        } catch (Exception e) {
+            System.out.println("Unable to edit contact: All fields were left blank");
+            throw new Exception();
         }
     }
 
