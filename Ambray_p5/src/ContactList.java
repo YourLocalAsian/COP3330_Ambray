@@ -38,7 +38,7 @@ public class ContactList {
                 System.out.println();
                 break;
             } catch (Exception e) {
-                System.out.println("Unable to create contact: All fields were left blank");
+                System.out.println("Unable to create contact: All fields were left blank\n");
             }
         }
     }
@@ -100,7 +100,7 @@ public class ContactList {
             throw new IndexOutOfBoundsException("Unable to edit contact: Invalid index");
         } catch (Exception e) {
             System.out.println("Unable to edit contact: All fields were left blank");
-            throw new Exception();
+            throw new Exception("Unable to edit contact: All fields were left blank");
         }
     }
 
@@ -182,7 +182,7 @@ public class ContactList {
         return requestedEmailAddress;
     }
 
-    public void saveTaskList() {
+    public void saveContactList() {
         String userExport = askForInputString();
         boolean pendingSave = true;
         while(pendingSave){
@@ -191,12 +191,13 @@ public class ContactList {
                 break;
             } else {
                 try (Formatter output = new Formatter("src/" +userExport)) {
+                    output.format("type=Contact\n\n");
                     for (int i = 0; i < getContacts().size(); i++) {
                         output.format("%s\n%s\n%s\n%s\n", getFirstName(i),
                                 getLastName(i), getPhoneNumber(i), getEmailAddress(i));
                         output.format("\n");
                     }
-                    output.format("-1");
+                    output.format("01000101 01001111 01000110");
                     break;
                 } catch (SecurityException | FileNotFoundException | FormatterClosedException | NoSuchElementException e) {
                     File myFile = new File(userExport);
@@ -213,34 +214,45 @@ public class ContactList {
         while(pendingLoad) {
             try {
                 String userInput = askForInputString();
-                loadTaskList(userInput);
+                loadContactList(userInput);
+            } catch (Exception e ){
+                break;
+            } finally {
                 pendingLoad = false;
-            } catch (Exception e) {
-                System.out.println("File does not exist");
             }
         }
     }
 
-    public void loadTaskList(String userImport){
+    public void loadContactList(String userImport) throws Exception {
         String endLoad = "";
-        try (Scanner input = new Scanner(Paths.get("src/"+ userImport))) {
-            while(true) {
-                if(!endLoad.equals("-1")){
-                    endLoad = input.nextLine();
-                    ContactItem newContact = new ContactItem(endLoad, input.nextLine(), input.nextLine(),
-                            input.nextLine());
-                    getContacts().add(newContact);
-                    input.nextLine();
+        boolean moreInformation = true;
+        try (Scanner input = new Scanner(Paths.get("src/" + userImport))) {
+            String fileType = input.nextLine();
+            if (fileType.equals("type=Contact")) {
+                input.nextLine();
+                endLoad = input.nextLine();
+                while (moreInformation) {
+                    if (!endLoad.equals("01000101 01001111 01000110")) {
+                        ContactItem newContact = new ContactItem(endLoad, input.nextLine(), input.nextLine(),
+                                input.nextLine());
+                        getContacts().add(newContact);
+                        input.nextLine();
+                        endLoad = input.nextLine();
+                    } else if(endLoad.equals("01000101 01001111 01000110")){
+                        moreInformation = false;
+                    }
                 }
-            }
-        } catch (NoSuchElementException |
-                IllegalStateException e) {
-        } catch (IOException e){
+            } else throw new IncorrectFileTypeException("Incompatible file type");
+        } catch (NoSuchElementException | IllegalStateException e) {
+        } catch (IOException e) {
             System.out.println("File does not exist. A new list has been made for you.");
+        } catch (IncorrectFileTypeException incorrectFileTypeException){
+            System.out.println("Unable to open file: Not a Contact List\nA new list has been made for you.");
+            throw new Exception("File is not a contact list");
         } catch (Exception e){
-            System.out.println("Invalid entry");
+            System.out.println("Unable to open file: File may be corrupted");
         }
     }
-
 
 }
+

@@ -254,6 +254,7 @@ class TaskListTest {
         }
     }
 
+    //Load Tests
     @Test
     public void savedTaskListCanBeLoaded(){
         TaskList tempList = new TaskList();
@@ -262,10 +263,18 @@ class TaskListTest {
             assertEquals("Original Title", tempList.getTaskTitle(0));
             assertEquals("Original Description", tempList.getTaskDescription(0));
             assertEquals(LocalDate.parse("2000-01-01"), tempList.getTaskDueDate(0));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        } catch (Exception e){}
+    }
 
+    @Test
+    public void incompatibleListCannotBeLoaded() {
+        ContactList tempList = new ContactList();
+        try {
+            tempList.loadContactList("testContact.txt");
+        } catch (Exception e) {
+            final String expectedMessage = "File is not a task list";
+            assertEquals(expectedMessage, e.getMessage());
+        }
     }
 
 }

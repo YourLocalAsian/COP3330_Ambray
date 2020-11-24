@@ -314,12 +314,13 @@ public class TaskList {
                 break;
             } else {
                 try (Formatter output = new Formatter("src/" +userExport)) {
+                    output.format("type=Task\n\n");
                     for (int i = 0; i < getTaskItems().size(); i++) {
                         output.format("%s\n%s\n%s\n%s\n", getTaskTitle(i),
                                 getTaskDescription(i), getTaskDueDate(i).toString(), getCompletionStatus(i));
                         output.format("\n");
                     }
-                    output.format("-1");
+                    output.format("01000101 01001111 01000110");
                     break;
                 } catch (SecurityException | FileNotFoundException | FormatterClosedException | NoSuchElementException e) {
                     File myFile = new File(userExport);
@@ -337,32 +338,43 @@ public class TaskList {
             try {
                 String userInput = askForInputString();
                 loadTaskList(userInput);
+            } catch (Exception e ){
+                break;
+            } finally {
                 pendingLoad = false;
-            } catch (Exception e) {
-                System.out.println("File does not exist");
             }
         }
     }
 
-    public void loadTaskList(String userImport){
+    public void loadTaskList(String userImport) throws Exception {
         String endLoad = "";
+        boolean moreInformation = true;
         try (Scanner input = new Scanner(Paths.get("src/"+ userImport))) {
-            while(true) {
-                if(!endLoad.equals("-1")){
-                    endLoad = input.nextLine();
-                    TaskItem newTask = new TaskItem(endLoad, input.nextLine(), input.nextLine());
-                    String tempBool = input.nextLine();
-                    newTask.setTaskCompletionStatus(Boolean.valueOf(tempBool));
-                    getTaskItems().add(newTask);
-                    input.nextLine();
+            String fileType = input.nextLine();
+            if (fileType.equals("type=Task")) {
+                input.nextLine();
+                endLoad = input.nextLine();
+                while (moreInformation) {
+                    if (!endLoad.equals("01000101 01001111 01000110")) {
+                        TaskItem newTask = new TaskItem(endLoad, input.nextLine(), input.nextLine());
+                        String tempBool = input.nextLine();
+                        newTask.setTaskCompletionStatus(Boolean.valueOf(tempBool));
+                        getTaskItems().add(newTask);
+                        input.nextLine();
+                        endLoad = input.nextLine();
+                    } else if(endLoad.equals("01000101 01001111 01000110")) {
+                        moreInformation = false;
+                    }
                 }
-            }
-        } catch (NoSuchElementException |
-                IllegalStateException e) {
+            } else throw new IncorrectFileTypeException("Incompatible file type");
+        } catch (NoSuchElementException | IllegalStateException e) {
         } catch (IOException e){
             System.out.println("File does not exist. A new list has been made for you.");
+        } catch (IncorrectFileTypeException incorrectFileTypeException){
+            System.out.println("Unable to open file: Not a Task List\nA new list has been made for you.");
+            throw new Exception("File is not a task list");
         } catch (Exception e){
-            System.out.println("Invalid entry");
+            System.out.println("Unable to open file: File may be corrupted");
         }
     }
 }

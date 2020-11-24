@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContactListTest {
@@ -62,32 +60,109 @@ class ContactListTest {
     //Editing Tests
     @Test
     public void editingSucceedsWithNonBlankValues(){
-
+        ContactList testList = new ContactList();
+        try {
+            ContactItem testContact = new ContactItem("Tacko","Fall","555-555-5555","thetackofall@gmail.com");
+            testList.getContacts().add(testContact);
+            testList.editContact(0, "Marshall" ,"Mathers", "313-555-5555", "slimshady@aftermath.com");
+        } catch (Exception e) {
+        } finally {
+            assertNotEquals("Tacko", testList.getFirstName(0));
+            assertNotEquals("Fall", testList.getLastName(0));
+            assertNotEquals("555-555-5555", testList.getPhoneNumber(0));
+            assertNotEquals("thetackofall@gmail.com", testList.getEmailAddress(0));
+            assertEquals("Marshall", testList.getFirstName(0));
+            assertEquals("Mathers", testList.getLastName(0));
+            assertEquals("313-555-5555", testList.getPhoneNumber(0));
+            assertEquals("slimshady@aftermath.com", testList.getEmailAddress(0));
+        }
     }
 
     @Test
     public void editingSucceedsWithBlankFirstName(){
-
+        ContactList testList = new ContactList();
+        try {
+            ContactItem testContact = new ContactItem("Tacko","Fall","555-555-5555","thetackofall@gmail.com");
+            testList.getContacts().add(testContact);
+            testList.editContact(0, "" ,"Mathers", "313-555-5555", "slimshady@aftermath.com");
+        } catch (Exception e) {
+        } finally {
+            assertNotEquals("Tacko", testList.getFirstName(0));
+            assertNotEquals("Fall", testList.getLastName(0));
+            assertNotEquals("555-555-5555", testList.getPhoneNumber(0));
+            assertNotEquals("thetackofall@gmail.com", testList.getEmailAddress(0));
+            assertEquals("", testList.getFirstName(0));
+            assertEquals("Mathers", testList.getLastName(0));
+            assertEquals("313-555-5555", testList.getPhoneNumber(0));
+            assertEquals("slimshady@aftermath.com", testList.getEmailAddress(0));
+        }
     }
 
     @Test
     public void editingSucceedsWithBlankLastName(){
-
+        ContactList testList = new ContactList();
+        try {
+            ContactItem testContact = new ContactItem("Tacko","Fall","555-555-5555","thetackofall@gmail.com");
+            testList.getContacts().add(testContact);
+            testList.editContact(0, "Marshall" ,"", "313-555-5555", "slimshady@aftermath.com");
+        } catch (Exception e) {
+        } finally {
+            assertNotEquals("Tacko", testList.getFirstName(0));
+            assertNotEquals("Fall", testList.getLastName(0));
+            assertNotEquals("555-555-5555", testList.getPhoneNumber(0));
+            assertNotEquals("thetackofall@gmail.com", testList.getEmailAddress(0));
+            assertEquals("Marshall", testList.getFirstName(0));
+            assertEquals("", testList.getLastName(0));
+            assertEquals("313-555-5555", testList.getPhoneNumber(0));
+            assertEquals("slimshady@aftermath.com", testList.getEmailAddress(0));
+        }
     }
 
     @Test
     public void editingSucceedsWithBlankPhone(){
-
+        ContactList testList = new ContactList();
+        try {
+            ContactItem testContact = new ContactItem("Tacko","Fall","555-555-5555","thetackofall@gmail.com");
+            testList.getContacts().add(testContact);
+            testList.editContact(0, "Marshall" ,"Mathers", "", "slimshady@aftermath.com");
+        } catch (Exception e) {
+        } finally {
+            assertNotEquals("Tacko", testList.getFirstName(0));
+            assertNotEquals("Fall", testList.getLastName(0));
+            assertNotEquals("555-555-5555", testList.getPhoneNumber(0));
+            assertNotEquals("thetackofall@gmail.com", testList.getEmailAddress(0));
+            assertEquals("Marshall", testList.getFirstName(0));
+            assertEquals("Mathers", testList.getLastName(0));
+            assertEquals("", testList.getPhoneNumber(0));
+            assertEquals("slimshady@aftermath.com", testList.getEmailAddress(0));
+        }
     }
 
     @Test
     public void editingItemsFailsWithAllBlankValues(){
+        ContactList testList = new ContactList();
+        try {
+            ContactItem testContact = new ContactItem("Tacko","Fall","555-555-5555","thetackofall@gmail.com");
+            testList.getContacts().add(testContact);
+            testList.editContact(0, "" ,"", "", "");
+        } catch (Exception e) {
+            final String expectedMessage = "Unable to edit contact: All fields were left blank";
+            assertEquals(expectedMessage, e.getMessage());
+        }
 
     }
 
     @Test
     public void editingItemsFailsWithInvalidIndex(){
-
+        ContactList testList = new ContactList();
+        try {
+            ContactItem testContact = new ContactItem("Tacko","Fall","555-555-5555","thetackofall@gmail.com");
+            testList.getContacts().add(testContact);
+            testList.editContact(1, "Marshall" ,"Mathers", "", "slimshady@aftermath.com");
+        } catch (IndexOutOfBoundsException e) {
+            final String expectedMessage = "Unable to edit contact: Invalid index";
+            assertEquals(expectedMessage, e.getMessage());
+        } catch (Exception e){}
     }
 
 
@@ -96,15 +171,22 @@ class ContactListTest {
     public void savedContactListCanBeLoaded(){
         ContactList tempList = new ContactList();
         try{
-            tempList.loadTaskList("testContact.txt");
+            tempList.loadContactList("testContact.txt");
             assertEquals("Tacko", tempList.getFirstName(0));
             assertEquals("Fall", tempList.getLastName(0));
             assertEquals("555-555-5555", tempList.getPhoneNumber(0));
             assertEquals("thetackofall@gmail.com", tempList.getEmailAddress(0));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        } catch (Exception e){}
     }
 
-
+    @Test
+    public void incompatibleListCannotBeLoaded() {
+        ContactList tempList = new ContactList();
+        try {
+            tempList.loadContactList("testTask.txt");
+        } catch (Exception e) {
+            final String expectedMessage = "File is not a contact list";
+            assertEquals(expectedMessage, e.getMessage());
+        }
+    }
 }

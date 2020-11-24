@@ -1,4 +1,5 @@
 import javax.sound.midi.Soundbank;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TaskApp {
@@ -76,6 +77,7 @@ public class TaskApp {
         boolean continueOperation = true;
         while(continueOperation){
             displayListOperationMenu();
+            try{
             int userChoice = userInput.nextInt();
             switch(userChoice){
                 case 1:
@@ -128,6 +130,10 @@ public class TaskApp {
                     break;
                 default:
                     System.out.println("Invalid operation. Select an option 1-8");
+                }
+            } catch (InputMismatchException inputMismatchException) {
+                System.out.println("Invalid operation. Select an option 1-8");
+                userInput.nextLine();
             }
         }
         runMainMenu();

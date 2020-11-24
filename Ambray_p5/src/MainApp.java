@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainApp {
@@ -27,22 +28,33 @@ public class MainApp {
     private static void selectAppMainMenu(){
         boolean continueOperation = true;
         while(continueOperation){
+            try {
             int userChoice = userInput.nextInt();
-            switch(userChoice){
-                case TASKLIST:
-                    TaskApp.taskMain();
-                    break;
-                case CONTACTLIST:
-                    ContactApp.contactMain();
-                    break;
-                case QUIT:
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Invalid operation. Select an option 1-3");
-                    break;
+                switch (userChoice) {
+                    case TASKLIST:
+                        TaskApp.taskMain();
+                        break;
+                    case CONTACTLIST:
+                        ContactApp.contactMain();
+                        break;
+                    case QUIT:
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid operation. Select an option 1-3");
+                        break;
+                }
+            } catch (InputMismatchException inputMismatchException){
+                System.out.println("Invalid operation. Select an option 1-3");
+                userInput.nextLine();
             }
         }
     }
 
+}
+
+class IncorrectFileTypeException extends Exception{
+    public IncorrectFileTypeException(String errorMessage){
+        super(errorMessage);
+    }
 }

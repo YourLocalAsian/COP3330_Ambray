@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ContactApp {
@@ -58,43 +59,48 @@ public class ContactApp {
                 "3) edit a contact\n" +
                 "4) remove a contact\n" +
                 "5) save the current list\n" +
-                "6) quit to the main menu\n");
+                "6) quit to the main menu\n\n");
     }
 
     private static void selectOperation(ContactList myList){
         boolean continueOperation = true;
         while(continueOperation){
             displayListOperationMenu();
-            int userChoice = userInput.nextInt();
-            switch(userChoice){
-                case 1:
-                    System.out.println("Current contacts\n" + "--------------");
-                    optionViewList(myList);
-                    break;
-                case 2:
-                    myList.addContact();
-                    break;
-                case 3:
-                    System.out.println("Current contacts\n" + "--------------");
-                    optionViewList(myList);
-                    System.out.printf("Which contact will you edit? ");
-                    myList.humanEditContact();
-                    break;
-                case 4:
-                    System.out.println("Current contacts\n" + "--------------");
-                    optionViewList(myList);
-                    System.out.printf("Which contact will you delete? ");
-                    myList.humanRemoveContact();
-                    break;
-                case 5:
-                    System.out.printf("What would you like save for list as? (add .txt file extension) ");
-                    myList.saveTaskList();
-                    break;
-                case 6:
-                    continueOperation = false;
-                    break;
-                default:
-                    System.out.println("Invalid operation. Select an option 1-6");
+            try {
+                int userChoice = userInput.nextInt();
+                switch (userChoice) {
+                    case 1:
+                        System.out.println("Current contacts\n" + "--------------");
+                        optionViewList(myList);
+                        break;
+                    case 2:
+                        myList.addContact();
+                        break;
+                    case 3:
+                        System.out.println("Current contacts\n" + "--------------");
+                        optionViewList(myList);
+                        System.out.printf("Which contact will you edit? ");
+                        myList.humanEditContact();
+                        break;
+                    case 4:
+                        System.out.println("Current contacts\n" + "--------------");
+                        optionViewList(myList);
+                        System.out.printf("Which contact will you delete? ");
+                        myList.humanRemoveContact();
+                        break;
+                    case 5:
+                        System.out.printf("What would you like save for list as? (add .txt file extension) ");
+                        myList.saveContactList();
+                        break;
+                    case 6:
+                        continueOperation = false;
+                        break;
+                    default:
+                        System.out.println("Invalid operation. Select an option 1-6");
+                }
+            } catch (InputMismatchException inputMismatchException){
+                System.out.println("Invalid operation. Select an option 1-6");
+                userInput.nextLine();
             }
         }
         runMainMenu();
