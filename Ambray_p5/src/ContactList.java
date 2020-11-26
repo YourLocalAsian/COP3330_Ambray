@@ -70,6 +70,7 @@ public class ContactList {
                     String lastName = "";
                     String phoneNumber = "";
                     String emailAddress = "";
+                    scnr.nextLine();
 
                     System.out.print("Enter a new first name: ");
                     firstName = scnr.nextLine();
