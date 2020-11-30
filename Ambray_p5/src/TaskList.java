@@ -8,16 +8,14 @@ import java.lang.IllegalStateException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class TaskList {
-    private static Scanner scnr = new Scanner(System.in);
-
+public class TaskList extends ParentList{
     private ArrayList<TaskItem> taskItems = new ArrayList<>(); // stores Accounts
 
     public List<TaskItem> getTaskItems() {
         return taskItems;
     }
 
-    public void addTaskItem() {
+    public void addItem() {
         while (true) {
             boolean nameIsInvalid = true;
             boolean dateIsInvalid = true;
@@ -54,11 +52,6 @@ public class TaskList {
             }
             break;
         }
-    }
-
-    private static String askForInputString(){
-        String userInput = scnr.nextLine();
-        return userInput;
     }
 
     public int askForElementIndex() throws IndexOutOfBoundsException{
@@ -226,16 +219,16 @@ public class TaskList {
         }
     }
 
-    public void humanRemoveTaskItem() {
+    public void humanRemoveItem() {
         int userIndex = askForElementIndex();
         if (userIndex == -1) {
             System.out.println("Selected item does not exist\n"); // do nothing
         } else {
-            removeTaskItem(userIndex);
+            removeItem(userIndex);
         }
     }
 
-    public void removeTaskItem(int taskNumber) {
+    public void removeItem(int taskNumber) {
         boolean indexIsInvalid = true;
         while (indexIsInvalid) {
             try {
@@ -305,7 +298,7 @@ public class TaskList {
         return requestedCompletionStatus;
     }
 
-    public void saveTaskList() {
+    public void saveList() {
         String userExport = askForInputString();
         boolean pendingSave = true;
         while(pendingSave){
@@ -337,7 +330,7 @@ public class TaskList {
         while(pendingLoad) {
             try {
                 String userInput = askForInputString();
-                loadTaskList(userInput);
+                loadList(userInput);
             } catch (Exception e ){
                 break;
             } finally {
@@ -346,7 +339,7 @@ public class TaskList {
         }
     }
 
-    public void loadTaskList(String userImport) throws Exception {
+    public void loadList(String userImport) throws Exception {
         String endLoad = "";
         boolean moreInformation = true;
         try (Scanner input = new Scanner(Paths.get("src/"+ userImport))) {

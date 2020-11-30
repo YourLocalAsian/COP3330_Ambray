@@ -1,23 +1,12 @@
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
-public class ContactApp {
-    private static final int CREATE = 1;
-    private static final int LOAD = 2;
-    private static final int QUIT = 3;
+public class ContactApp extends ParentApp {
 
-    private static Scanner userInput = new Scanner(System.in);
-
-    public static void contactMain(){
+    public void contactMain(){
         runMainMenu();
     }
 
-    private static void runMainMenu(){
-        displayMainMenu();
-        selectMainMenu();
-    }
-
-    private static void displayMainMenu(){
+    protected void displayMainMenu(){
         System.out.printf("Contact App Main Menu\n" +
                 "------------------\n" +
                 "1) create a new list\n" +
@@ -25,7 +14,7 @@ public class ContactApp {
                 "3) quit\n\n");
     }
 
-    private static void selectMainMenu(){
+    protected void selectMainMenu(){
         boolean continueOperation = true;
         while(continueOperation){
             int userChoice = userInput.nextInt();
@@ -48,10 +37,10 @@ public class ContactApp {
                     break;
             }
         }
-        MainApp.runAppMainMenu();
+        MainApp.runMainMenu();
     }
 
-    private static void displayListOperationMenu(){
+    protected void displayListOperationMenu(){
         System.out.printf("List Operation Menu\n" +
                 "--------------------\n" +
                 "1) view the list\n" +
@@ -62,7 +51,7 @@ public class ContactApp {
                 "6) quit to the main menu\n\n");
     }
 
-    private static void selectOperation(ContactList myList){
+    private void selectOperation(ContactList myList){
         boolean continueOperation = true;
         while(continueOperation){
             displayListOperationMenu();
@@ -74,7 +63,7 @@ public class ContactApp {
                         optionViewList(myList);
                         break;
                     case 2:
-                        myList.addContact();
+                        myList.addItem();
                         break;
                     case 3:
                         System.out.println("Current contacts\n" + "--------------");
@@ -86,11 +75,11 @@ public class ContactApp {
                         System.out.println("Current contacts\n" + "--------------");
                         optionViewList(myList);
                         System.out.printf("Which contact will you delete? ");
-                        myList.humanRemoveContact();
+                        myList.humanRemoveItem();
                         break;
                     case 5:
                         System.out.printf("What would you like save for list as? (add .txt file extension) ");
-                        myList.saveContactList();
+                        myList.saveList();
                         break;
                     case 6:
                         continueOperation = false;
@@ -107,7 +96,7 @@ public class ContactApp {
         System.out.println();
     }
 
-    private static void optionViewList(ContactList myList){
+    private void optionViewList(ContactList myList){
         if(myList.getContacts().size() == 0){
             System.out.println("No contacts in list\n");
         } else {

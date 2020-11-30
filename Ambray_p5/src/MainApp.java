@@ -1,23 +1,21 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MainApp {
+public class MainApp{
     private static final int TASKLIST = 1;
     private static final int CONTACTLIST = 2;
     private static final int QUIT = 3;
 
     private static Scanner userInput = new Scanner(System.in);
 
-    public static void main(String [] args){
-        runAppMainMenu();
+    public static void main(String [] args){ runMainMenu(); }
+
+    public static void runMainMenu() {
+        displayMainMenu();
+        selectMainMenu();
     }
 
-    public static void runAppMainMenu() {
-        displayAppMainMenu();
-        selectAppMainMenu();
-    }
-
-    private static void displayAppMainMenu(){
+    private static void displayMainMenu(){
         System.out.printf("Select Your Application\n" +
                 "-----------------------\n" +
                 "1) task list\n" +
@@ -25,17 +23,19 @@ public class MainApp {
                 "3) quit\n\n");
     }
 
-    private static void selectAppMainMenu(){
+    private static void selectMainMenu(){
         boolean continueOperation = true;
         while(continueOperation){
             try {
             int userChoice = userInput.nextInt();
                 switch (userChoice) {
                     case TASKLIST:
-                        TaskApp.taskMain();
+                        TaskApp taskApp = new TaskApp();
+                        taskApp.taskMain();
                         break;
                     case CONTACTLIST:
-                        ContactApp.contactMain();
+                        ContactApp contactApp = new ContactApp();
+                        contactApp.contactMain();
                         break;
                     case QUIT:
                         System.exit(0);

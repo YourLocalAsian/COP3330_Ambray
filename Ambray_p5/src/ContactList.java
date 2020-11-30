@@ -4,16 +4,14 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class ContactList {
-    private static Scanner scnr = new Scanner(System.in);
-
+public class ContactList extends ParentList{
     private ArrayList<ContactItem> contacts = new ArrayList<>(); // stores Accounts
 
     public List<ContactItem> getContacts() {
         return contacts;
     }
 
-    public void addContact() {
+    public void addItem() {
         while (true) {
             String firstName = "";
             String lastName = "";
@@ -43,11 +41,6 @@ public class ContactList {
         }
     }
 
-    private static String askForInputString(){
-        String userInput = scnr.nextLine();
-        return userInput;
-    }
-
     public int askForElementIndex() throws IndexOutOfBoundsException{
         int userInput = scnr.nextInt();
         if (userInput > (getContacts().size() -1 ) || getContacts().size() == 0) {
@@ -65,8 +58,9 @@ public class ContactList {
             boolean pendingEdit = true;
             while (pendingEdit) {
                 try {
-                    String firstName = "";
+                    scnr.nextLine();
 
+                    String firstName = "";
                     String lastName = "";
                     String phoneNumber = "";
                     String emailAddress = "";
@@ -104,21 +98,21 @@ public class ContactList {
         }
     }
 
-    public void humanRemoveContact() {
+    public void humanRemoveItem() {
         int userIndex = askForElementIndex();
         if (userIndex == -1) {
             System.out.println("Selected item does not exist\n"); // do nothing
         } else {
-            removeTaskItem(userIndex);
+            removeItem(userIndex);
         }
     }
 
-    public void removeTaskItem(int contactNumber) {
+    public void removeItem(int contactNumber) {
         boolean indexIsInvalid = true;
         while (indexIsInvalid) {
             try {
-                System.out.println("Contact #" + contactNumber + " has been deleted\n");
                 getContacts().remove(contactNumber);
+                System.out.println("Contact #" + contactNumber + " has been deleted\n");
                 indexIsInvalid = false;
             } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
                 throw new IndexOutOfBoundsException("Unable to remove item: Invalid index");
@@ -182,7 +176,7 @@ public class ContactList {
         return requestedEmailAddress;
     }
 
-    public void saveContactList() {
+    public void saveList() {
         String userExport = askForInputString();
         boolean pendingSave = true;
         while(pendingSave){
@@ -214,7 +208,7 @@ public class ContactList {
         while(pendingLoad) {
             try {
                 String userInput = askForInputString();
-                loadContactList(userInput);
+                loadList(userInput);
             } catch (Exception e ){
                 break;
             } finally {
@@ -223,7 +217,7 @@ public class ContactList {
         }
     }
 
-    public void loadContactList(String userImport) throws Exception {
+    public void loadList(String userImport) throws Exception {
         String endLoad = "";
         boolean moreInformation = true;
         try (Scanner input = new Scanner(Paths.get("src/" + userImport))) {

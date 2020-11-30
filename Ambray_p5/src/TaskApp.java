@@ -1,31 +1,14 @@
-import javax.sound.midi.Soundbank;
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
-public class TaskApp {
-    private static final int FULL = 0;
-    private static final int INCOMPLETE = 1;
-    private static final int COMPLETE = 2;
+public class TaskApp extends ParentApp {
+    private int completeCounter = 0;
+    private int incompleteCounter = 0;
 
-    private static final int CREATE = 1;
-    private static final int LOAD = 2;
-    private static final int QUIT = 3;
-
-    private static int completeCounter = 0;
-    private static int incompleteCounter = 0;
-
-    private static Scanner userInput = new Scanner(System.in);
-
-    public static void taskMain(){
+    public void taskMain(){
         runMainMenu();
     }
 
-    private static void runMainMenu(){
-        displayMainMenu();
-        selectMainMenu();
-    }
-
-    private static void displayMainMenu(){
+    protected void displayMainMenu(){
         System.out.printf("Task App Main Menu\n" +
                         "------------------\n" +
                         "1) create a new list\n" +
@@ -33,7 +16,7 @@ public class TaskApp {
                         "3) quit\n\n");
     }
 
-    private static void selectMainMenu(){
+    protected void selectMainMenu(){
         boolean continueOperation = true;
         while(continueOperation){
             int userChoice = userInput.nextInt();
@@ -57,10 +40,10 @@ public class TaskApp {
                     break;
             }
         }
-        MainApp.runAppMainMenu();
+        MainApp.runMainMenu();
     }
 
-    private static void displayListOperationMenu(){
+    protected void displayListOperationMenu(){
         System.out.printf("List Operation Menu\n" +
                 "--------------------\n" +
                 "1) view the list\n" +
@@ -73,7 +56,7 @@ public class TaskApp {
                 "8) quit to the main menu\n\n");
     }
 
-    private static void selectOperation(TaskList myList){
+    private void selectOperation(TaskList myList){
         boolean continueOperation = true;
         while(continueOperation){
             displayListOperationMenu();
@@ -85,7 +68,7 @@ public class TaskApp {
                     optionViewList(myList, FULL);
                     break;
                 case 2:
-                    myList.addTaskItem();
+                    myList.addItem();
                     break;
                 case 3:
                     System.out.println("Current tasks\n" + "--------------");
@@ -97,7 +80,7 @@ public class TaskApp {
                     System.out.println("Current tasks\n" + "--------------");
                     optionViewList(myList, FULL);
                     System.out.printf("Which task will you delete? ");
-                    myList.humanRemoveTaskItem();
+                    myList.humanRemoveItem();
                     break;
                 case 5:
                     System.out.println("Incomplete tasks\n" + "--------------");
@@ -123,7 +106,7 @@ public class TaskApp {
                     break;
                 case 7:
                     System.out.printf("What would you like save for list as? (add .txt file extension) ");
-                    myList.saveTaskList();
+                    myList.saveList();
                     break;
                 case 8:
                     continueOperation = false;
@@ -140,7 +123,7 @@ public class TaskApp {
         System.out.println();
     }
 
-    private static void optionViewList(TaskList myList, int option){
+    private void optionViewList(TaskList myList, int option){
         switch(option){
             case FULL:
                 if(myList.getTaskItems().size() == 0){

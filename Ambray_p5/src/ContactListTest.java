@@ -32,7 +32,7 @@ class ContactListTest {
             ContactItem testContact = new ContactItem("Tacko","Fall","555-555-5555","thetackofall@gmail.com");
             testList.getContacts().add(testContact);
             sizeBeforeDeleting = testList.getContacts().size();
-            testList.removeTaskItem(0);
+            testList.removeItem(0);
         } catch (Exception e) {
         } finally {
             assertEquals(1, sizeBeforeDeleting);
@@ -48,7 +48,7 @@ class ContactListTest {
             ContactItem testContact = new ContactItem("Tacko","Fall","555-555-5555","thetackofall@gmail.com");
             testList.getContacts().add(testContact);
             sizeBeforeDeleting = testList.getContacts().size();
-            testList.removeTaskItem(0);
+            testList.removeItem(0);
         } catch (Exception e) {
         } finally {
             assertEquals(1, sizeBeforeDeleting);
@@ -171,7 +171,7 @@ class ContactListTest {
     public void savedContactListCanBeLoaded(){
         ContactList tempList = new ContactList();
         try{
-            tempList.loadContactList("testContact.txt");
+            tempList.loadList("testContact.txt");
             assertEquals("Tacko", tempList.getFirstName(0));
             assertEquals("Fall", tempList.getLastName(0));
             assertEquals("555-555-5555", tempList.getPhoneNumber(0));
@@ -183,7 +183,7 @@ class ContactListTest {
     public void incompatibleListCannotBeLoaded() {
         ContactList tempList = new ContactList();
         try {
-            tempList.loadContactList("testTask.txt");
+            tempList.loadList("testTask.txt");
         } catch (Exception e) {
             final String expectedMessage = "File is not a contact list";
             assertEquals(expectedMessage, e.getMessage());

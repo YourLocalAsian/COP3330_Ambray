@@ -1,8 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +34,7 @@ class TaskListTest {
             TaskItem task1 = new TaskItem("First", "Description", "2001-07-26");
             taskList.getTaskItems().add(task1);
             sizeBeforeDeleting = taskList.getTaskItems().size();
-            taskList.removeTaskItem(0);
+            taskList.removeItem(0);
         } catch (Exception e) {
         } finally {
             assertEquals(1, sizeBeforeDeleting);
@@ -53,7 +50,7 @@ class TaskListTest {
             TaskItem task1 = new TaskItem("First", "Description", "2001-07-26");
             taskList.getTaskItems().add(task1);
             sizeBeforeDeleting = taskList.getTaskItems().size();
-            taskList.removeTaskItem(1);
+            taskList.removeItem(1);
         } catch (Exception e) {
             final String expectedMessage = "Unable to remove item: Invalid index";
             assertEquals(expectedMessage, e.getMessage());
@@ -305,7 +302,7 @@ class TaskListTest {
     public void savedTaskListCanBeLoaded(){
         TaskList tempList = new TaskList();
         try{
-            tempList.loadTaskList("testTask.txt");
+            tempList.loadList("testTask.txt");
             assertEquals("Original Title", tempList.getTaskTitle(0));
             assertEquals("Original Description", tempList.getTaskDescription(0));
             assertEquals(LocalDate.parse("2000-01-01"), tempList.getTaskDueDate(0));
@@ -316,7 +313,7 @@ class TaskListTest {
     public void incompatibleListCannotBeLoaded() {
         ContactList tempList = new ContactList();
         try {
-            tempList.loadContactList("testContact.txt");
+            tempList.loadList("testContact.txt");
         } catch (Exception e) {
             final String expectedMessage = "File is not a task list";
             assertEquals(expectedMessage, e.getMessage());
