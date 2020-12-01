@@ -179,6 +179,11 @@ public class ContactList extends ParentList{
 
     public void saveList() {
         String userExport = askForInputString();
+        while(userExport.length() == 0){
+            System.out.println("File name is not valid. File name must be at least one character long.");
+            System.out.print("What would you like save for list as? (add .txt file extension) ");
+            userExport = askForInputString();
+        }
         boolean pendingSave = true;
         while(pendingSave){
             if (getContacts().size() == 0){

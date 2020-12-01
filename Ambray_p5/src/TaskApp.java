@@ -64,49 +64,27 @@ public class TaskApp extends ParentApp {
             int userChoice = userInput.nextInt();
             switch(userChoice){
                 case 1:
-                    System.out.println("Current tasks\n" + "--------------");
-                    optionViewList(myList, FULL);
+                    viewFullList(myList);
                     break;
                 case 2:
                     myList.addItem();
                     break;
                 case 3:
-                    System.out.println("Current tasks\n" + "--------------");
-                    optionViewList(myList, FULL);
-                    System.out.printf("Which task will you edit? ");
-                    myList.humanEditTaskItem();
+                    editItems(myList);
                     break;
                 case 4:
-                    System.out.println("Current tasks\n" + "--------------");
-                    optionViewList(myList, FULL);
-                    System.out.printf("Which task will you delete? ");
-                    myList.humanRemoveItem();
+                    deleteItem(myList);
                     break;
                 case 5:
-                    System.out.println("Incomplete tasks\n" + "--------------");
-                    optionViewList(myList, INCOMPLETE);
-                    if(incompleteCounter != 0) {
-                        System.out.printf("Which item would you like to mark as complete? ");
-                        myList.humanCompleteTaskItem();
-                        System.out.println();
-                    } else {
-                        System.out.println("No tasks are incomplete\n");
-                    }
+                    viewIncompleteTasks(myList);
+                    markTaskAsComplete(myList);
                     break;
                 case 6:
-                    System.out.println("Complete tasks\n" + "--------------");
-                     optionViewList(myList, COMPLETE);
-                    if(completeCounter != 0) {
-                        System.out.printf("Which item would you like to mark as incomplete? ");
-                        myList.humanUncompleteTaskItem();
-                        System.out.println();
-                    } else {
-                        System.out.println("No tasks are complete\n");
-                    }
+                    viewCompleteTasks(myList);
+                    markTaskAsInComplete(myList);
                     break;
                 case 7:
-                    System.out.printf("What would you like save for list as? (add .txt file extension) ");
-                    myList.saveList();
+                    saveCurrentList(myList);
                     break;
                 case 8:
                     continueOperation = false;
@@ -165,4 +143,59 @@ public class TaskApp extends ParentApp {
         }
     }
 
+    private void viewFullList(TaskList myList){
+        System.out.println("Current tasks\n" + "--------------");
+        optionViewList(myList, FULL);
+    }
+
+    private void editItems(TaskList myList){
+        viewFullList(myList);
+        System.out.printf("Which task will you edit? ");
+        myList.humanEditTaskItem();
+    }
+
+    private void deleteItem(TaskList myList){
+        viewFullList(myList);
+        System.out.printf("Which task will you delete? ");
+        myList.humanRemoveItem();
+    }
+
+    private void viewIncompleteTasks(TaskList myList){
+        System.out.println("Incomplete tasks\n" + "--------------");
+        optionViewList(myList, INCOMPLETE);
+    }
+
+    private void markTaskAsComplete(TaskList myList){
+        if(incompleteCounter != 0) {
+            System.out.printf("Which item would you like to mark as complete? ");
+            myList.humanCompleteTaskItem();
+            System.out.println();
+        } else {
+            System.out.println("No tasks are incomplete\n");
+        }
+    }
+
+    private void viewCompleteTasks(TaskList myList){
+        System.out.println("Complete tasks\n" + "--------------");
+        optionViewList(myList, COMPLETE);
+    }
+
+    private void markTaskAsInComplete(TaskList myList){
+        if(completeCounter != 0) {
+            System.out.printf("Which item would you like to mark as incomplete? ");
+            myList.humanUncompleteTaskItem();
+            System.out.println();
+        } else {
+            System.out.println("No tasks are complete\n");
+        }
+    }
+
+    private void saveCurrentList(TaskList myList){
+        if(myList.getTaskItems().size() > 0) {
+            System.out.printf("What would you like save for list as? (add .txt file extension) ");
+            myList.saveList();
+        } else {
+            System.out.println("Unable to save list: Current list is empty\n");
+        }
+    }
 }

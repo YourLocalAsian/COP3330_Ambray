@@ -59,27 +59,21 @@ public class ContactApp extends ParentApp {
                 int userChoice = userInput.nextInt();
                 switch (userChoice) {
                     case 1:
-                        System.out.println("Current contacts\n" + "--------------");
-                        optionViewList(myList);
+                        formattedViewList(myList);
                         break;
                     case 2:
                         myList.addItem();
                         break;
                     case 3:
-                        System.out.println("Current contacts\n" + "--------------");
-                        optionViewList(myList);
-                        System.out.printf("Which contact will you edit? ");
-                        myList.humanEditContact();
+                        formattedViewList(myList);
+                        editContact(myList);
                         break;
                     case 4:
-                        System.out.println("Current contacts\n" + "--------------");
-                        optionViewList(myList);
-                        System.out.printf("Which contact will you delete? ");
-                        myList.humanRemoveItem();
+                        formattedViewList(myList);
+                        deleteContact(myList);
                         break;
                     case 5:
-                        System.out.printf("What would you like save for list as? (add .txt file extension) ");
-                        myList.saveList();
+                        saveCurrentList(myList);
                         break;
                     case 6:
                         continueOperation = false;
@@ -96,7 +90,7 @@ public class ContactApp extends ParentApp {
         System.out.println();
     }
 
-    private void optionViewList(ContactList myList){
+    private void viewList(ContactList myList){
         if(myList.getContacts().size() == 0){
             System.out.println("No contacts in list\n");
         } else {
@@ -108,4 +102,28 @@ public class ContactApp extends ParentApp {
                 }
 
         }
+
+    private void formattedViewList(ContactList myList){
+        System.out.println("Current contacts\n" + "--------------");
+        viewList(myList);
+    }
+
+    private void editContact(ContactList myList){
+        System.out.printf("Which contact will you edit? ");
+        myList.humanEditContact();
+    }
+
+    private void deleteContact(ContactList myList){
+        System.out.printf("Which contact will you delete? ");
+        myList.humanRemoveItem();
+    }
+
+    private void saveCurrentList(ContactList myList){
+        if(myList.getContacts().size() > 0) {
+            System.out.printf("What would you like save for list as? (add .txt file extension) ");
+            myList.saveList();
+        } else {
+            System.out.println("Unable to save list: Current list is empty\n");
+        }
+    }
 }

@@ -124,6 +124,8 @@ public class TaskList extends ParentList{
         } else {
             boolean pendingEdit = true;
             while (pendingEdit) {
+                scnr.nextLine(); //clears line buffer
+
                 System.out.printf("Enter a new title for task " + userIndex + ": ");
                 humanEditTaskItemTitle(userIndex);
 
@@ -300,6 +302,11 @@ public class TaskList extends ParentList{
 
     public void saveList() {
         String userExport = askForInputString();
+        while(userExport.length() == 0){
+            System.out.println("File name is not valid. File name must be at least one character long.");
+            System.out.print("What would you like save for list as? (add .txt file extension) ");
+            userExport = askForInputString();
+        }
         boolean pendingSave = true;
         while(pendingSave){
             if (getTaskItems().size() == 0){
